@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
+from cloudinary.models import CloudinaryField
 # Create your models here.
 class User(AbstractUser):
-    pass
+    avatar= CloudinaryField(null=True)
 
 class BaseModel(models.Model):
     created_date=models.DateTimeField(auto_now_add=True,null=True)
@@ -17,8 +18,10 @@ class BaseModel(models.Model):
 class PhanAnh(BaseModel):
     name=models.CharField(max_length=50,null=True)
     noiDung=RichTextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    # image = models.ImageField(upload_to='PhanAnh/%Y/%m',null=True)
+    image= CloudinaryField(null=True)
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     def __str__(self):
         return self.name
 
@@ -31,6 +34,8 @@ class TuDoDienTu(BaseModel):
 
 class HangHoa(BaseModel):
     name=models.CharField(max_length=50,null=True)
+    # image = models.ImageField(upload_to='HangHoa/%Y/%m',null=True)
+    image = CloudinaryField(null=True)
     tuDo=models.ForeignKey(TuDoDienTu,on_delete=models.CASCADE)
 
     def __str__(self):
@@ -39,7 +44,9 @@ class HangHoa(BaseModel):
 class PhieuKhaoSat(BaseModel):
     name = models.CharField(max_length=50, null=True)
     noiDung = RichTextField()
-    pks_user=models.ManyToManyField(User)
+    # image = models.ImageField(upload_to='PhieuKhaoSat/%Y/%m',null=True)
+    image = CloudinaryField(null=True)
+    user=models.ManyToManyField(User)
 
     def __str__(self):
         return self.name
@@ -60,7 +67,7 @@ class HoaDon(BaseModel):
     thongTinHD=RichTextField()
     tongTien=models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    dichvu_hoadon = models.ManyToManyField(DichVu)
+    dichVu = models.ManyToManyField(DichVu)
 
     def __str__(self):
         return self.name
@@ -80,7 +87,7 @@ class HopDong(BaseModel):
     thongtinHD=RichTextField()
     tienDatCoc=models.FloatField()
     canHo=models.ForeignKey(CanHo, on_delete=models.CASCADE, null=True)
-    hopdong_user=models.ManyToManyField(User)
+    user=models.ManyToManyField(User)
 
     def __str__(self):
         return self.name
