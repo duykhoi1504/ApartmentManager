@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
 from cloudinary.models import CloudinaryField
+from django.db.models import Count
 # Create your models here.
 class User(AbstractUser):
     avatar= CloudinaryField(null=True)
@@ -42,22 +43,34 @@ class HangHoa(BaseModel):
         return self.name
 
 class PhieuKhaoSat(BaseModel):
-    name = models.CharField(max_length=50, null=True)
-    noiDung = RichTextField()
-    # image = models.ImageField(upload_to='PhieuKhaoSat/%Y/%m',null=True)
-    image = CloudinaryField(null=True)
-    user=models.ManyToManyField(User)
+    tieuDe = models.CharField(max_length=50, null=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return self.name
+        return self.tieuDe
 
+class CauHoiKhaoSat(BaseModel):
+    phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE,null=True)
+    cauHoi = RichTextField()
+
+    def __str__(self):
+        return self.cauHoi
+
+class DapAnKhaoSat(BaseModel):
+    phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE,null=True)
+    cauhoikhaosat = models.ForeignKey(CauHoiKhaoSat, on_delete=models.CASCADE,null=True)
+    dapAn =RichTextField()
+
+    def __str__(self):
+        return self.dapAn
 
 class DichVu(BaseModel):
     name = models.CharField(max_length=50, null=True)
     thongTinDV=RichTextField()
     giaDV=models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    #add
+    user = models.ManyToManyField(User)
     def __str__(self):
         return self.name
 
@@ -66,6 +79,7 @@ class HoaDon(BaseModel):
     name = models.CharField(max_length=50, null=True)
     thongTinHD=RichTextField()
     tongTien=models.FloatField()
+    payment_image = CloudinaryField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     dichVu = models.ManyToManyField(DichVu)
 
