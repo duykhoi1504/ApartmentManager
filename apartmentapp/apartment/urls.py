@@ -5,7 +5,12 @@ from apartment import views
 
 
 r=routers.DefaultRouter()
+r.register('hoadons',views.HoaDonViewSet,basename='hoadons')
+r.register('tudodientus',views.TuDoDienTuViewSet,basename='tudodientus')
+r.register('phieukhaosats',views.PhieuKhaoSatViewSet,basename='phieukhaosats')
 r.register('phananhs',views.PhanAnhViewSet,basename='phananhs')
+r.register('hanghoas',views.HangHoaViewSet,basename='hanghoas')
+
 urlpatterns = [
     path('',include(r.urls))
 ]

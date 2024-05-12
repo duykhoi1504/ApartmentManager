@@ -25,8 +25,6 @@ class MyHangHoaAdmin(admin.ModelAdmin):
 
 
 
-
-
 admin.site.register(PhanAnh,MyPhanAnhAdmin)
 admin.site.register(PhieuKhaoSat)
 admin.site.register(TuDoDienTu)

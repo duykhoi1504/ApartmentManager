@@ -6,12 +6,12 @@ GET /api/maintenance/requests: Lấy danh sách các phan anh từ cư dân. Bao
 
 POST:Cấp tài khoản cho cư dân (QTV)
 POST: upload ủy nhiệm chi lên hệ thống
-GET:Hóa đơn đã thanh toán (cư dân)
+♥GET:Hóa đơn đã thanh toán (cư dân)
 POST: Đăng kí cho người than để nhận thẻ giữ xe và ra vào cổng(Cư Dân)
 PATCH: Khoa tai khoan cu dan khi tien hanh chuyen nhuong nha (QTV)
 DELETE: Tài Khoản cư dân (QTV)
 POST: hang hóa vào tủ đồ của cư dân(QTV)
-GET:danh sách món hàng tủ đồ của cư dân đó trong trạng thái đang chờ nhận hang(cư dân)
+♥GET:danh sách món hàng trong tủ đồ của cư dân đó trong trạng thái đang chờ nhận hang(cư dân)
 POST: viết phản ánh gửi về ban quản trị (Cư dân)
 POST: Ban quản trị tạo ra phiếu khảo sát cho cư dân về tình hình vệ sinh, cơ sở vật chat, các dịch vụ(QTV)
 POST: Thực hiện khảo sát(Cư dân)
