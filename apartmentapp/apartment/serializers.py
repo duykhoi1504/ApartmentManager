@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apartment.models import PhanAnh,HangHoa,HoaDon,TuDoDienTu,PhieuKhaoSat,DapAnKhaoSat
+from apartment.models import PhanAnh,HangHoa,HoaDon,TuDoDienTu,PhieuKhaoSat,DapAnKhaoSat,CauHoiKhaoSat
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -34,9 +34,17 @@ class TuDoDienTuSerializer(serializers.ModelSerializer):
 class PhieuKhaoSatSerializer(serializers.ModelSerializer):
     class Meta:
         model=PhieuKhaoSat
-        fields='__all__'
+        fields=['id','created_date','updated_date','active','tieuDe']
+
+
+class CauHoiKhaoSatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CauHoiKhaoSat
+        fields = ['id','cauHoi']
 
 class DapAnKhaoSatSerializer(serializers.ModelSerializer):
+
     class Meta:
         model=DapAnKhaoSat
-        fields='__all__'
+        fields=['id','dapAn','active']
+

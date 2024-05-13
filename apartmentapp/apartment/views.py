@@ -57,3 +57,21 @@ class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.ListAPIView):
     def get_dapankhaosats(self, request, pk):
         dapankhaosats = self.get_object().dapankhaosat_set.filter(active=True)
         return Response(serializers.DapAnKhaoSatSerializer(dapankhaosats, many=True).data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], url_path='cauhoikhaosats', detail=True)
+    def get_cauhoikhaosats(self, request, pk):
+        cauhoikhaosats = self.get_object().cauhoikhaosat_set.filter(active=True)
+        return Response(serializers.CauHoiKhaoSatSerializer(cauhoikhaosats, many=True).data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], url_path='cauhoi-dapan', detail=True)
+    def get_cauhoi_dapan(self, request, pk):
+        phieukhaosat = self.get_object()
+        cauhoikhaosats = phieukhaosat.cauhoikhaosat_set.all()
+        dapankhaosats = phieukhaosat.dapankhaosat_set.filter(active=True)
+
+        data = {
+            'phieu_khao_sat': serializers.PhieuKhaoSatSerializer(phieukhaosat).data,
+            'cau_hoi': serializers.CauHoiKhaoSatSerializer(cauhoikhaosats, many=True).data,
+            'dap_an': serializers.DapAnKhaoSatSerializer(dapankhaosats, many=True).data
+        }
+        return Response(data, status=status.HTTP_200_OK)
