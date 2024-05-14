@@ -48,25 +48,46 @@ class HangHoa(BaseModel):
 
 class PhieuKhaoSat(BaseModel):
     tieuDe = models.CharField(max_length=50, null=True)
-    user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='phieu_khao_sat')
 
     def __str__(self):
         return self.tieuDe
 
 class CauHoiKhaoSat(BaseModel):
-    phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE,null=True)
+    phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE, null=True, related_name='cau_hoi_khao_sat')
     cauHoi = RichTextField()
 
     def __str__(self):
         return self.cauHoi
 
 class DapAnKhaoSat(BaseModel):
-    phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE,null=True)
-    cauhoikhaosat = models.ForeignKey(CauHoiKhaoSat, on_delete=models.CASCADE,null=True)
-    dapAn =RichTextField()
+    phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE, null=True, related_name='dap_an_khao_sat')
+    cauhoikhaosat = models.ForeignKey(CauHoiKhaoSat, on_delete=models.CASCADE, null=True, related_name='dap_an_khao_sat')
+    dapAn = RichTextField()
 
     def __str__(self):
         return self.dapAn
+# class PhieuKhaoSat(BaseModel):
+#     tieuDe = models.CharField(max_length=50, null=True)
+#     user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+#
+#     def __str__(self):
+#         return self.tieuDe
+#
+# class CauHoiKhaoSat(BaseModel):
+#     phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE,null=True)
+#     cauHoi = RichTextField()
+#
+#     def __str__(self):
+#         return self.cauHoi
+#
+# class DapAnKhaoSat(BaseModel):
+#     phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE,null=True)
+#     cauhoikhaosat = models.ForeignKey(CauHoiKhaoSat, on_delete=models.CASCADE,null=True)
+#     dapAn =RichTextField()
+#
+#     def __str__(self):
+#         return self.dapAn
 
 class DichVu(BaseModel):
     name = models.CharField(max_length=50, null=True)

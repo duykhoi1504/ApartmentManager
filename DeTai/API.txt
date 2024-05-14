@@ -1,4 +1,4 @@
-POST: Tạo một căn hộ mới trong hệ thống quản lý chung cư. Yêu cầu dữ liệu như số phòng, diện tích, giá thuê, và các tiện ích có sẵn trong căn hộ.
+﻿POST: Tạo một căn hộ mới trong hệ thống quản lý chung cư. Yêu cầu dữ liệu như số phòng, diện tích, giá thuê, và các tiện ích có sẵn trong căn hộ.
 GET: Lấy danh sách cư dân trong chung cư, bao gồm thông tin cá nhân như tên, địa chỉ, số điện thoại, và thông tin liên quan đến hợp đồng thuê.
 POST /api/payments: Ghi nhận khoản thanh toán mới từ cư dân. Yêu cầu dữ liệu như mã căn hộ, số tiền, ngày thanh toán, và mô tả chi tiết
 GET /api/maintenance/requests: Lấy danh sách các phan anh từ cư dân. Bao gồm thông tin về ngày yêu cầu, mô tả vấn đề, trạng thái yêu cầu, và ngày hoàn thành.
@@ -15,4 +15,4 @@ POST: hang hóa vào tủ đồ của cư dân(QTV)
 POST: viết phản ánh gửi về ban quản trị (Cư dân)
 POST: Ban quản trị tạo ra phiếu khảo sát cho cư dân về tình hình vệ sinh, cơ sở vật chat, các dịch vụ(QTV)
 POST: Thực hiện khảo sát(Cư dân)
-GET: danh sách các khảo sát(QTV)
+♥GET: danh sách các khảo sát(QTV)
