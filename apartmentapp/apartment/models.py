@@ -111,7 +111,7 @@ class HoaDon(BaseModel):
     payment_image = CloudinaryField(null=True,blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='hoa_don')
     # dichVu = models.ManyToManyField(DichVu)
-    dichVu = models.ForeignKey(DichVu, on_delete=models.CASCADE,null=True)
+    dichVu = models.ManyToManyField(DichVu,related_name='hoa_don')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     def __str__(self):
         return self.name

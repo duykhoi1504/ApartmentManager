@@ -41,7 +41,7 @@ class DichVuSerializer(serializers.ModelSerializer):
 
 class HoaDonSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    dichVu = DichVuSerializer()
+    dichVu = DichVuSerializer(many=True)
     class Meta:
         model = HoaDon
         fields = ['id', 'name', 'thongTinHD', 'payment_image', 'created_date', 'status', 'dichVu','user']
