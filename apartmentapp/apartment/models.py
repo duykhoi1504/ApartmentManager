@@ -109,7 +109,7 @@ class HoaDon(BaseModel):
     thongTinHD=RichTextField()
     # tongTien=models.FloatField()
     payment_image = CloudinaryField(null=True,blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='hoa_don')
     # dichVu = models.ManyToManyField(DichVu)
     dichVu = models.ForeignKey(DichVu, on_delete=models.CASCADE,null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')

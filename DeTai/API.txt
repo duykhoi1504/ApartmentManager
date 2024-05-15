@@ -4,7 +4,7 @@ POST /api/payments: Ghi nhận khoản thanh toán mới từ cư dân. Yêu c�
 GET /api/maintenance/requests: Lấy danh sách các phan anh từ cư dân. Bao gồm thông tin về ngày yêu cầu, mô tả vấn đề, trạng thái yêu cầu, và ngày hoàn thành.
 //
 
-POST:Cấp tài khoản cho cư dân (QTV)
+♥POST:Cấp tài khoản cho cư dân (QTV)
 POST: upload ủy nhiệm chi lên hệ thống
 ♥GET:Hóa đơn đã thanh toán (cư dân)
 POST: Đăng kí cho người than để nhận thẻ giữ xe và ra vào cổng(Cư Dân)

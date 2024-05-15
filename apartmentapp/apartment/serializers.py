@@ -1,6 +1,29 @@
 from rest_framework import serializers
-from apartment.models import PhanAnh, HangHoa, HoaDon, TuDoDienTu, PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat
+from apartment.models import PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu, PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User
 
+
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        data=validated_data.copy()
+
+        user=User(**data)
+        user.set_password(data["password"])
+        user.save()
+
+        return user
+    class Meta:
+        model=User
+        fields=['id','first_name','last_name','email','username','password','avatar']
+
+        extra_kwargs={
+            'password':{
+                'write_only':True
+            }
+        }
 
 class ItemSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
@@ -11,11 +34,19 @@ class ItemSerializer(serializers.ModelSerializer):
             rep['image'] = image.url
         return rep
 
+class DichVuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DichVu
+        fields = ['id', 'name', 'thongTinDV', 'giaDV']
 
 class HoaDonSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    dichVu = DichVuSerializer()
     class Meta:
         model = HoaDon
-        fields = 'id', 'name', 'thongTinHD', 'payment_image', 'created_date', 'status', 'dichVu'
+        fields = ['id', 'name', 'thongTinHD', 'payment_image', 'created_date', 'status', 'dichVu','user']
+
+
 
 
 class PhanAnhSerializer(serializers.ModelSerializer):
@@ -71,3 +102,5 @@ class PhieuKhaoSatSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhieuKhaoSat
         fields = ['tieuDe', 'cau_hoi_khao_sat', 'created_date', 'updated_date', 'active', 'user']
+
+

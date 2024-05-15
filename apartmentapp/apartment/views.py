@@ -1,14 +1,17 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics, status
+from rest_framework import viewsets, generics, status,parsers
 from apartment import serializers, paginators
-from apartment.models import PhanAnh, HangHoa, HoaDon, TuDoDienTu, PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat
+from apartment.models import PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu, PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 
 # Create your views here.
+class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
+    queryset = User.objects.filter(is_active=True)
+    serializer_class = serializers.UserSerializer
 
-class HoaDonViewSet(viewsets.ViewSet, generics.ListAPIView):
+class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     queryset = HoaDon.objects.filter(active=True)
     serializer_class = serializers.HoaDonSerializer
 
@@ -22,6 +25,11 @@ class HoaDonViewSet(viewsets.ViewSet, generics.ListAPIView):
 
         return queryset
 
+    @action(methods=['get'], url_path='dichvus', detail=True)
+    def get_dichvus(self, request, pk=None):
+        hoadon = self.get_object()
+        dichvus = DichVu.objects.filter(hoadon=hoadon, active=True)
+        return Response(serializers.DichVuSerializer(dichvus, many=True).data, status=status.HTTP_200_OK)
 
 class PhanAnhViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = PhanAnh.objects.filter(active=True)
@@ -84,3 +92,5 @@ class TuDoDienTuViewSet(viewsets.ViewSet, generics.ListAPIView):
 class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.RetrieveAPIView):
     queryset = PhieuKhaoSat.objects.all()
     serializer_class = serializers.PhieuKhaoSatSerializer
+
+
