@@ -1,7 +1,7 @@
 from django.contrib import admin
 from apartment.models import (PhanAnh,PhieuKhaoSat,TuDoDienTu,HangHoa,
                               DichVu,CanHo,HoaDon,HopDong,CauHoiKhaoSat,DapAnKhaoSat,
-                              TheGiuXe,NguoiThan)
+                              TheGiuXe,NguoiThan,User)
 from django.utils.html import mark_safe
 # Register your models here.
 
@@ -39,3 +39,4 @@ admin.site.register(CauHoiKhaoSat)
 admin.site.register(DapAnKhaoSat)
 admin.site.register(TheGiuXe)
 admin.site.register(NguoiThan)
+admin.site.register(User)

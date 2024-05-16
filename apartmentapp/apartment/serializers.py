@@ -1,9 +1,6 @@
 from rest_framework import serializers
-from apartment.models import PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu, PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User
-
-
-
-
+from apartment.models import (PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu,
+                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User,NguoiThan)
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -88,7 +85,7 @@ class TuDoDienTuSerializer(serializers.ModelSerializer):
 class DapAnKhaoSatSerializer(serializers.ModelSerializer):
     class Meta:
         model = DapAnKhaoSat
-        fields = ['dapAn']
+        fields = ['id','dapAn']
 
 class CauHoiKhaoSatSerializer(serializers.ModelSerializer):
     dap_an_khao_sat = DapAnKhaoSatSerializer(many=True, read_only=True)
@@ -104,4 +101,8 @@ class PhieuKhaoSatSerializer(serializers.ModelSerializer):
         model = PhieuKhaoSat
         fields = ['tieuDe', 'cau_hoi_khao_sat', 'created_date', 'updated_date', 'active', 'user']
 
+class NguoiThanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NguoiThan
+        fields = ['id', 'name','cccd','sdt', 'created_date', 'updated_date', 'active','user_id', 'status']
 

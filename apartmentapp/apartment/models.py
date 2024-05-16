@@ -3,9 +3,33 @@ from django.contrib.auth.models import AbstractUser
 from ckeditor.fields import RichTextField
 from cloudinary.models import CloudinaryField
 from django.db.models import Count
+
 # Create your models here.
+
+
 class User(AbstractUser):
+
+    STATUS_CHOICES = (
+        ('admin', 'quản trị viên'),
+        ('resident', 'cư dân')
+    )
     avatar= CloudinaryField(null=True)
+    role = models.CharField(max_length=20, choices=STATUS_CHOICES,default='resident')
+
+    def save(self, *args, **kwargs):
+        #*args cho phép bạn truyền vào một số lượng không xác định các tham số trong hàm.
+        #**kwargs cho phép bạn truyền vào một số lượng không xác định các tham số dưới dạng cặp khóa-giá trị.
+        # Tự động set role dựa trên is_superuser
+        if self.is_superuser:
+            self.role = 'admin'
+        elif self.role == 'admin' and not self.is_superuser:
+            self.role = 'resident'
+        super().save(*args, **kwargs)
+        #*args sẽ thu thập tất cả các tham số không được đặt tên và đóng gói chúng thành một tuple.
+        #**kwargs sẽ thu thập tất cả các tham số được đặt tên và đóng gói chúng thành một dictionary.
+        #Sau đó, super().save(*args, **kwargs) sẽ truyền tất cả các tham số thu thập được vào hàm save() của lớp cha (AbstractUser).
+
+
 
 class BaseModel(models.Model):
     created_date=models.DateTimeField(auto_now_add=True,null=True)
@@ -73,10 +97,10 @@ class CauHoiKhaoSat(BaseModel):
 class DapAnKhaoSat(BaseModel):
     phieukhaosat = models.ForeignKey(PhieuKhaoSat, on_delete=models.CASCADE, null=True, related_name='dap_an_khao_sat')
     cauhoikhaosat = models.ForeignKey(CauHoiKhaoSat, on_delete=models.CASCADE, null=True, related_name='dap_an_khao_sat')
-    dapAn = RichTextField()
+    dapAn = RichTextField(null=True)
 
     def __str__(self):
-        return self.dapAn
+        return f'{self.phieukhaosat.tieuDe} -{self.cauhoikhaosat.cauHoi} - {self.dapAn}'
 # class PhieuKhaoSat(BaseModel):
 #     tieuDe = models.CharField(max_length=50, null=True)
 #     user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
@@ -105,7 +129,7 @@ class DichVu(BaseModel):
     giaDV=models.FloatField()
     # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     #add
-    users = models.ManyToManyField(User)
+    # users = models.ManyToManyField(User)
     def __str__(self):
         return self.name
 
@@ -124,7 +148,7 @@ class HoaDon(BaseModel):
     dichVu = models.ManyToManyField(DichVu,related_name='hoa_don')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     def __str__(self):
-        return self.name
+        return f'{self.name}-{self.user.username} '
 
     def tongTien(self):
         dich_vu = self.dichVu.all()
@@ -143,10 +167,15 @@ class HopDong(BaseModel):
     def __str__(self):
         return self.name
 class NguoiThan(BaseModel):
+    STATUS_CHOICES = (
+        ('pending', 'Chờ xử lý'),
+        ('pass', 'Đăng ký thành công')
+    )
     name = models.CharField(max_length=100)
     cccd = models.CharField(max_length=20, unique=True)
     sdt = models.CharField(max_length=15)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nguoi_than')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     def __str__(self):
         return f'{self.name} -người thân của: {self.user.username}'
 class TheGiuXe(BaseModel):
