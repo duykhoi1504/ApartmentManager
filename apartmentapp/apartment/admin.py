@@ -1,5 +1,7 @@
 from django.contrib import admin
-from apartment.models import PhanAnh,PhieuKhaoSat,TuDoDienTu,HangHoa,DichVu,CanHo,HoaDon,HopDong,CauHoiKhaoSat,DapAnKhaoSat
+from apartment.models import (PhanAnh,PhieuKhaoSat,TuDoDienTu,HangHoa,
+                              DichVu,CanHo,HoaDon,HopDong,CauHoiKhaoSat,DapAnKhaoSat,
+                              TheGiuXe,NguoiThan)
 from django.utils.html import mark_safe
 # Register your models here.
 
@@ -35,3 +37,5 @@ admin.site.register(HoaDon)
 admin.site.register(HopDong)
 admin.site.register(CauHoiKhaoSat)
 admin.site.register(DapAnKhaoSat)
+admin.site.register(TheGiuXe)
+admin.site.register(NguoiThan)

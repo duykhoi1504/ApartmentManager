@@ -26,9 +26,19 @@ class PhanAnh(BaseModel):
     def __str__(self):
         return self.name
 
+class CanHo(BaseModel):
+    name = models.CharField(max_length=50, null=True)
+    vitri=RichTextField()
+    loaiCanHo=models.CharField(max_length=50)
+    giaBan=models.FloatField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.name}-{self.user.username}"
+
 class TuDoDienTu(BaseModel):
     name=models.CharField(max_length=50,null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    canho = models.ForeignKey(CanHo, on_delete=models.CASCADE, null=True,related_name='tu_do_dien_tu')
 
     def __str__(self):
         return self.name
@@ -41,10 +51,10 @@ class HangHoa(BaseModel):
     name=models.CharField(max_length=50,null=True)
     # image = models.ImageField(upload_to='HangHoa/%Y/%m',null=True)
     image = CloudinaryField(null=True,blank=True)
-    tuDo=models.ForeignKey(TuDoDienTu,on_delete=models.CASCADE)
+    tuDo=models.ForeignKey(TuDoDienTu,on_delete=models.CASCADE,related_name='hang_hoa')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='waiting')
     def __str__(self):
-        return self.name
+        return f'{self.name} - status: {self.status}'
 
 class PhieuKhaoSat(BaseModel):
     tieuDe = models.CharField(max_length=50, null=True)
@@ -121,22 +131,26 @@ class HoaDon(BaseModel):
         tong_tien = sum([dv.giaDV for dv in dich_vu])
         return tong_tien
 
-class CanHo(BaseModel):
-    name = models.CharField(max_length=50, null=True)
-    vitri=RichTextField()
-    loaiCanHo=models.CharField(max_length=50)
-    giaBan=models.FloatField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
-    def __str__(self):
-        return self.name
 
 class HopDong(BaseModel):
     name = models.CharField(max_length=50, null=True)
     thongtinHD=RichTextField()
     tienDatCoc=models.FloatField()
     canHo=models.ForeignKey(CanHo, on_delete=models.CASCADE, null=True)
-    user=models.ManyToManyField(User)
+    user= models.ForeignKey(User, on_delete=models.CASCADE,null=True ,related_name='hop_dong')
 
     def __str__(self):
         return self.name
+class NguoiThan(BaseModel):
+    name = models.CharField(max_length=100)
+    cccd = models.CharField(max_length=20, unique=True)
+    sdt = models.CharField(max_length=15)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nguoi_than')
+    def __str__(self):
+        return f'{self.name} -người thân của: {self.user.username}'
+class TheGiuXe(BaseModel):
+    nguoithan = models.OneToOneField(NguoiThan, on_delete=models.CASCADE,related_name='the_giu_xe')
+
+    def __str__(self):
+        return f'{self.id} - thẻ giữ xe của: {self.nguoithan}'

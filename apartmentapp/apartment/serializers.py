@@ -62,9 +62,10 @@ class HangHoaSerializer(ItemSerializer):
 
 
 class TuDoDienTuSerializer(serializers.ModelSerializer):
+    hang_hoa=HangHoaSerializer(many=True)
     class Meta:
         model = TuDoDienTu
-        fields = 'id', 'name', 'created_date', 'updated_date', 'active', 'user'
+        fields = ['id', 'name', 'created_date', 'updated_date', 'active', 'canho','hang_hoa']
 
 
 # class PhieuKhaoSatSerializer(serializers.ModelSerializer):

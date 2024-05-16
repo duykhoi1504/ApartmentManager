@@ -86,7 +86,7 @@ class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView):
         return queryset
 
 
-class TuDoDienTuViewSet(viewsets.ViewSet, generics.ListAPIView):
+class TuDoDienTuViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     queryset = TuDoDienTu.objects.filter(active=True)
     serializer_class = serializers.TuDoDienTuSerializer
 
@@ -103,7 +103,9 @@ class TuDoDienTuViewSet(viewsets.ViewSet, generics.ListAPIView):
 
     @action(methods=['post'], url_path='hanghoas', detail=True)
     def add_hanghoa(self, request, pk):
-        c=self.get_object().hanghoa_set.create(name=request.data.get('name'),
+
+        #hang_hoa là trong related_name ben model
+        c=self.get_object().hang_hoa.create(name=request.data.get('name'),
                                               image=request.data.get('image'))
         return Response(serializers.HangHoaSerializer(c).data,status=status.HTTP_201_CREATED)
 # class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.RetrieveAPIView):
