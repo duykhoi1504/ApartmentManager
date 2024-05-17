@@ -20,7 +20,7 @@ class HoaDonOwner(permissions.IsAuthenticated):
 #Tổng kết lại, lớp TuDoOwner xác định quyền truy cập của người dùng vào một đối tượng cụ thể bằng cách kế thừa từ permissions.IsAuthenticated
 # và ghi đè phương thức has_object_permission để kiểm tra xem người dùng có là chủ sở hữu của đối tượng hay không.
 
-class TuDoOwner(permissions.IsAuthenticated):
+class AdminOwner(permissions.IsAuthenticated):
     def has_object_permission(self, request, view, obj):
         if request.user.is_superuser:
             return True

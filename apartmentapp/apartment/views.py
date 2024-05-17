@@ -14,12 +14,13 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
 
     serializer_class = serializers.UserSerializer
     parser_classes = [parsers.MultiPartParser,]
-
-    def get_permissions(self):
-        if self.action in ['get_current_user']:
-            return [permissions.IsAuthenticated()]
-
-        return [permissions.AllowAny()]
+    permission_classes = [perms.AdminOwner]
+    #or co the viet ham xac thuc duoi day
+    # def get_permissions(self):
+    #     if self.action in ['get_current_user','set_active','delete_user','add_nguoithan']:
+    #         return [permissions.IsAdminUser()]
+    #
+    #     return [permissions.AllowAny()]
 
     @action(methods=['get', 'patch'], url_path='current-user', detail=False)
     def get_current_user(self, request):
@@ -52,6 +53,12 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
                                               )
         return Response(serializers.NguoiThanSerializer(c).data,status=status.HTTP_201_CREATED)
 
+    @action(methods=['patch'], url_path='setactive', detail=True)
+    def set_active(self,request,pk):
+        instance = self.get_object()
+        instance.is_active= not instance.is_active
+        instance.save()
+        return Response(serializers.UserSerializer(instance).data)
 class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     queryset = HoaDon.objects.filter(active=True)
     serializer_class = serializers.HoaDonSerializer
