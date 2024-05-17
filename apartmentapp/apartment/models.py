@@ -51,14 +51,23 @@ class PhanAnh(BaseModel):
         return self.name
 
 class CanHo(BaseModel):
+    STATUS_CHOICES = (
+        ('vip', 'căn hộ cao cấp'),
+        ('normal', 'căn hộ thường')
+    )
     name = models.CharField(max_length=50, null=True)
     vitri=RichTextField()
-    loaiCanHo=models.CharField(max_length=50)
+    loaiCanHo=models.CharField(max_length=50,choices=STATUS_CHOICES,default='normal')
     giaBan=models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
     def __str__(self):
         return f"{self.name}-{self.user.username}"
+
+# class LoaiCanHo(BaseModel):
+#     name = models.CharField(max_length=50, null=True)
+#     def __str__(self):
+#         return self.name
+
 
 class TuDoDienTu(BaseModel):
     name=models.CharField(max_length=50,null=True)
