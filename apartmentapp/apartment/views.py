@@ -113,7 +113,7 @@ class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView):
         return queryset
 
 
-class TuDoDienTuViewSet(viewsets.ViewSet, generics.RetrieveAPIView,generics.DestroyAPIView):
+class TuDoDienTuViewSet(viewsets.ViewSet,generics.ListAPIView, generics.RetrieveAPIView,generics.DestroyAPIView):
     queryset = TuDoDienTu.objects.filter(active=True)
     serializer_class = serializers.TuDoDienTuSerializer
     # permission_classes = [perms.TuDoOwner]
