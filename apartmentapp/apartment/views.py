@@ -14,13 +14,13 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
 
     serializer_class = serializers.UserSerializer
     parser_classes = [parsers.MultiPartParser,]
-    permission_classes = [perms.AdminOwner]
+    # permission_classes = [perms.AdminOwner]
     #or co the viet ham xac thuc duoi day
-    # def get_permissions(self):
-    #     if self.action in ['get_current_user','set_active','delete_user','add_nguoithan']:
-    #         return [permissions.IsAdminUser()]
-    #
-    #     return [permissions.AllowAny()]
+    def get_permissions(self):
+        if self.action in ['get_current_user','set_active','delete_user']:
+            return [permissions.IsAdminUser()]
+
+        return [permissions.AllowAny()]
 
     @action(methods=['get', 'patch'], url_path='current-user', detail=False)
     def get_current_user(self, request):
@@ -91,10 +91,19 @@ class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
             return Response({'error': 'Không tìm thấy hình ảnh thanh toán.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PhanAnhViewSet(viewsets.ViewSet, generics.ListAPIView):
-    queryset = PhanAnh.objects.filter(active=True)
+class PhanAnhViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView):
+    queryset = PhanAnh.objects.all()
     serializer_class = serializers.PhanAnhSerializer
 
+    # get_permissions: chỉ user đã chứng thực mới được phép thêm phản ánh
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
+
+    # get_permissions: tự động gắn user_id của người tạo phản ánh
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = HangHoa.objects.filter(active=True)
