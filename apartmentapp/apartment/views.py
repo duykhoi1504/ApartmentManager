@@ -1,23 +1,24 @@
 from django.shortcuts import render
-from rest_framework import viewsets, generics, status,parsers,permissions
-from apartment import serializers, paginators,perms
-from apartment.models import (PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu,
-                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User,NguoiThan)
+from rest_framework import viewsets, generics, status, parsers, permissions
+from apartment import serializers, paginators, perms
+from apartment.models import (PhanAnh, HangHoa, HoaDon, DichVu, TuDoDienTu,
+                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat, User, NguoiThan)
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 
 # Create your views here.
-class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView):
     # queryset = User.objects.filter(is_active=True)
     queryset = User.objects.all()
 
     serializer_class = serializers.UserSerializer
-    parser_classes = [parsers.MultiPartParser,]
+    parser_classes = [parsers.MultiPartParser, ]
+
     # permission_classes = [perms.AdminOwner]
-    #or co the viet ham xac thuc duoi day
+    # or co the viet ham xac thuc duoi day
     def get_permissions(self):
-        if self.action in ['get_current_user','set_active','delete_user']:
+        if self.action in ['get_current_user', 'set_active', 'delete_user']:
             return [permissions.IsAdminUser()]
 
         return [permissions.AllowAny()]
@@ -43,26 +44,30 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
 
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
     @action(methods=['post'], url_path='nguoithans', detail=True)
     def add_nguoithan(self, request, pk):
 
-        #hang_hoa là trong related_name ben model
-        c=self.get_object().nguoi_than.create(name=request.data.get('name'),
-                                              cccd=request.data.get('cccd'),
-                                              sdt=request.data.get('sdt'),
-                                              )
-        return Response(serializers.NguoiThanSerializer(c).data,status=status.HTTP_201_CREATED)
+        # hang_hoa là trong related_name ben model
+        c = self.get_object().nguoi_than.create(name=request.data.get('name'),
+                                                cccd=request.data.get('cccd'),
+                                                sdt=request.data.get('sdt'),
+                                                )
+        return Response(serializers.NguoiThanSerializer(c).data, status=status.HTTP_201_CREATED)
 
     @action(methods=['patch'], url_path='setactive', detail=True)
-    def set_active(self,request,pk):
+    def set_active(self, request, pk):
         instance = self.get_object()
-        instance.is_active= not instance.is_active
+        instance.is_active = not instance.is_active
         instance.save()
         return Response(serializers.UserSerializer(instance).data)
+
+
 class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     queryset = HoaDon.objects.filter(active=True)
     serializer_class = serializers.HoaDonSerializer
     permission_classes = [perms.HoaDonOwner]
+
     def get_queryset(self):
         # Get Hang hoa theo name và get hang hoa theo từng mã tủ đồ
         # queryset=HoaDon.objects.filter(status='pending')
@@ -78,6 +83,7 @@ class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
         dichvus = self.get_object().dichVu.filter(active=True)
         serializer = serializers.DichVuSerializer(dichvus, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
     @action(methods=['patch'], url_path='upuynhiemchi', detail=True)
     def up_uynhiemchi(self, request, pk=None):
         hoa_don = self.get_object()
@@ -95,15 +101,16 @@ class PhanAnhViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIV
     queryset = PhanAnh.objects.all()
     serializer_class = serializers.PhanAnhSerializer
 
-    #get_permissions: chỉ user đã chứng thực mới được phép thêm phản ánh
+    # get_permissions: chỉ user đã chứng thực mới được phép thêm phản ánh
     def get_permissions(self):
         if self.action == 'create':
             return [permissions.IsAuthenticated()]
         return [permissions.AllowAny()]
 
-    #get_permissions: tự động gắn user_id của người tạo phản ánh
+    # get_permissions: tự động gắn user_id của người tạo phản ánh
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
 
 class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = HangHoa.objects.filter(active=True)
@@ -122,9 +129,10 @@ class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView):
         return queryset
 
 
-class TuDoDienTuViewSet(viewsets.ViewSet,generics.ListAPIView, generics.RetrieveAPIView,generics.DestroyAPIView):
+class TuDoDienTuViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView, generics.DestroyAPIView):
     queryset = TuDoDienTu.objects.filter(active=True)
     serializer_class = serializers.TuDoDienTuSerializer
+
     # permission_classes = [perms.TuDoOwner]
 
     def get_permissions(self):
@@ -140,19 +148,29 @@ class TuDoDienTuViewSet(viewsets.ViewSet,generics.ListAPIView, generics.Retrieve
 
     @action(methods=['post'], url_path='hanghoas', detail=True)
     def add_hanghoa(self, request, pk):
-
-        #hang_hoa là trong related_name ben model
-        c=self.get_object().hang_hoa.create(name=request.data.get('name'),
+        # hang_hoa là trong related_name ben model
+        c = self.get_object().hang_hoa.create(name=request.data.get('name'),
                                               image=request.data.get('image'))
-        return Response(serializers.HangHoaSerializer(c).data,status=status.HTTP_201_CREATED)
+        return Response(serializers.HangHoaSerializer(c).data, status=status.HTTP_201_CREATED)
 
 
-
-class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.RetrieveAPIView):
+class PhieuKhaoSatViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.ListAPIView, generics.CreateAPIView):
     queryset = PhieuKhaoSat.objects.all()
     serializer_class = serializers.PhieuKhaoSatSerializer
+
+    def get_permissions(self):
+        if self.action == 'add_cauhoikhaosat':
+            return [permissions.IsAdminUser()]
+        return [permissions.AllowAny()]
+
+    @action(methods=['post'], url_path=r'cauhois/(?P<cauhoikhaosat_id>\d+)', detail=True)
+    def add_cauhoikhaosat(self, request, pk, phieukhaosat_id):
+        phieu_khao_sat = self.get_object()
+        cauhoi = CauHoiKhaoSat.objects.create(phieukhaosat_id=phieu_khao_sat.id, cauHoi=request.data.get('cauHoi'))
+        return Response(serializers.CauHoiKhaoSatSerializer(cauhoi).data, status=status.HTTP_201_CREATED)
+
     @action(methods=['post'], url_path=r'dapans/(?P<cauhoikhaosat_id>\d+)', detail=True)
-    def add_dapan(self, request, pk,cauhoikhaosat_id):
+    def add_dapan(self, request, pk, cauhoikhaosat_id):
         phieu_khao_sat = self.get_object()
         cauhoi = CauHoiKhaoSat.objects.get(pk=cauhoikhaosat_id)
         dapan = DapAnKhaoSat.objects.create(
@@ -162,7 +180,14 @@ class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.RetrieveAPIView):
             active=True
         )
         return Response(serializers.DapAnKhaoSatSerializer(dapan).data, status=status.HTTP_201_CREATED)
-class DapAnKhaoSatViewSet(viewsets.ViewSet,generics.ListAPIView):
+
+
+class CauHoiKhaoSatViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = CauHoiKhaoSat.objects.all()
+    serializer_class = serializers.CauHoiKhaoSatSerializer
+
+
+class DapAnKhaoSatViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = DapAnKhaoSat.objects.all()
     serializer_class = serializers.DapAnKhaoSatSerializer
 
@@ -194,9 +219,8 @@ class DapAnKhaoSatViewSet(viewsets.ViewSet,generics.ListAPIView):
 #     }
 #     return Response(data, status=status.HTTP_200_OK)
 
-class NguoiThanViewSet(viewsets.ViewSet,generics.CreateAPIView):
+class NguoiThanViewSet(viewsets.ViewSet, generics.CreateAPIView):
     # queryset = User.objects.filter(is_active=True)
     queryset = NguoiThan.objects.all()
 
     serializer_class = serializers.NguoiThanSerializer
-

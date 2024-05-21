@@ -13,6 +13,7 @@ r.register('hanghoas',views.HangHoaViewSet,basename='hanghoas')
 r.register('users',views.UserViewSet,basename='users')
 r.register('nguoithans',views.NguoiThanViewSet,basename='nguoithans')
 r.register('dapankhaosats',views.DapAnKhaoSatViewSet,basename='dapankhaosats')
+r.register('cauhoikhaosats',views.CauHoiKhaoSatViewSet,basename='cauhoikhaosats')
 
 urlpatterns = [
     path('',include(r.urls))
