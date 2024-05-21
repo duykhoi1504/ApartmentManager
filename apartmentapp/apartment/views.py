@@ -163,8 +163,8 @@ class PhieuKhaoSatViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.L
             return [permissions.IsAdminUser()]
         return [permissions.AllowAny()]
 
-    @action(methods=['post'], url_path=r'cauhois/(?P<cauhoikhaosat_id>\d+)', detail=True)
-    def add_cauhoikhaosat(self, request, pk, phieukhaosat_id):
+    @action(methods=['post'], url_path='cauhois', detail=True)
+    def add_cauhoikhaosat(self, request, pk):
         phieu_khao_sat = self.get_object()
         cauhoi = CauHoiKhaoSat.objects.create(phieukhaosat_id=phieu_khao_sat.id, cauHoi=request.data.get('cauHoi'))
         return Response(serializers.CauHoiKhaoSatSerializer(cauhoi).data, status=status.HTTP_201_CREATED)
