@@ -1,11 +1,12 @@
 
 import MyStyles from "../../styles/MyStyles";
-import APIs, { endpoint } from "../../configs/API";
+import APIs, { endpoints } from "../../configs/API";
 import React from "react";
 import { Chip, List,Searchbar } from "react-native-paper";
 import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
 import moment from "moment";
-const Tudodientu = () => {
+import { isCloseToBottom } from "../../Utils/Utils";
+const Tudodientu = ({navigation}) => {
 
     const[tudodientus,setTudodientus]=React.useState(null);
     const[hanghoas,setHanghoas]=React.useState([]);
@@ -13,19 +14,10 @@ const Tudodientu = () => {
     const[q, setQ]=React.useState("");
     const[tudoId,setTudoId]=React.useState("");
     const[page,setPage]=React.useState(1);
-    // const cates = [{
-    //     "id": 1,
-    //     "name": "Mobile"
-    //    }, {
-    //     "id": 2,
-    //     "name": "Tablet"
-    //    }, {
-    //     "id": 3,
-    //     "name": "Desktop"
-    //    }]
+
     const loadTudo= async () => {
         try{
-            let res=await APIs.get(endpoint['tudodientus']) 
+            let res=await APIs.get(endpoints['tudodientus']) 
             setTudodientus(res.data);
         }catch(ex){
             console.error(ex);
@@ -33,7 +25,7 @@ const Tudodientu = () => {
     }
     const loadHanghoas = async () => {
         if(page > 0){
-        let url=`${endpoint['hanghoas']}?q=${q}&tuDo=${tudoId}&page=${page}`;
+        let url=`${endpoints['hanghoas']}?q=${q}&tuDo=${tudoId}&page=${page}`;
         try{
             setLoading(true);
             let res=await APIs.get(url) 
@@ -62,11 +54,11 @@ const Tudodientu = () => {
     },[q,tudoId,page]);
     
 
-    const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-        const paddingToBottom = 20;
-        return layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - paddingToBottom;
-    };
+    // const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    //     const paddingToBottom = 20;
+    //     return layoutMeasurement.height + contentOffset.y >=
+    //         contentSize.height - paddingToBottom;
+    // };
     const loadMore = ({ nativeEvent }) => {
         if (loading === false && isCloseToBottom(nativeEvent)) {
             setPage(page + 1);
@@ -92,14 +84,15 @@ const Tudodientu = () => {
         <Searchbar placeholder="tìm khóa học..." value={q} onChangeText={t => search(t,setQ)}/>
         </View>
 
-        <ScrollView onScroll={loadMore}>asdasdas
+        <ScrollView onScroll={loadMore}>
             <RefreshControl onRefresh={ () => loadHanghoas()}/>
             
             {/* {hanghoas.map(c => <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />)} */}
             {loading && <ActivityIndicator />}
-            {hanghoas.map(c => 
-                <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />)   
-                }
+            {hanghoas.map(c => <TouchableOpacity key={c.id} onPress={() => navigation.navigate("HanghoaDetails",{hanghoaId: c.id})}>
+                <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />
+                </TouchableOpacity>
+                )}
             {/* {hanghoas && hanghoas.length > 0 ? (
                 hanghoas.map(c => 
                 <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />)   

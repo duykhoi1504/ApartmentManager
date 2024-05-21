@@ -105,7 +105,7 @@ class PhanAnhViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIV
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView):
+class HangHoaViewSet(viewsets.ViewSet, generics.ListAPIView,generics.RetrieveAPIView):
     queryset = HangHoa.objects.filter(active=True)
     serializer_class = serializers.HangHoaSerializer
     pagination_class = paginators.HangHoaPaginator

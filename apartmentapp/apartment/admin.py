@@ -27,8 +27,8 @@ class MyApartmentAdminSite(admin.AdminSite):
                 "apartment_stats": apartment_stats,
                 "apartmentdetail_stats":apartmentdetail_stats,
                 "hoa_don":hoa_don,
-            "hoa_don_dich_vu":hoa_don_dich_vu,
-            "dich_vu":dich_vu,
+                "hoa_don_dich_vu":hoa_don_dich_vu,
+                "dich_vu":dich_vu,
 
 
         })
