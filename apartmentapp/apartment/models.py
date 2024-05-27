@@ -60,6 +60,7 @@ class CanHo(BaseModel):
     loaiCanHo=models.CharField(max_length=50,choices=STATUS_CHOICES,default='normal')
     giaBan=models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    userMembers=models.ManyToManyField(User, null=True, related_name='thanh_vien_can_ho')
     def __str__(self):
         return f"{self.name}-{self.user.username}"
 
