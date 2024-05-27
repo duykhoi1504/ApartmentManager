@@ -25,7 +25,8 @@ const Tudodientu = ({navigation}) => {
     }
     const loadHanghoas = async () => {
         if(page > 0){
-        let url=`${endpoints['hanghoas']}?q=${q}&tuDo=${tudoId}&page=${page}`;
+        let url=`${
+            ['hanghoas']}?q=${q}&tuDo=${tudoId}&page=${page}`;
         try{
             setLoading(true);
             let res=await APIs.get(url) 

@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 
 # Create your views here.
-class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
+class UserViewSet(viewsets.ViewSet,generics.CreateAPIView,generics.ListAPIView,generics.RetrieveAPIView):
     # queryset = User.objects.filter(is_active=True)
     queryset = User.objects.all()
 
@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView):
     # permission_classes = [perms.AdminOwner]
     #or co the viet ham xac thuc duoi day
     def get_permissions(self):
-        if self.action in ['get_current_user','set_active','delete_user']:
+        if self.action in ['set_active','delete_user']:
             return [permissions.IsAdminUser()]
 
         return [permissions.AllowAny()]

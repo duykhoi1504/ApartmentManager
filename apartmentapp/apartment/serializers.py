@@ -47,9 +47,11 @@ class HoaDonSerializer(serializers.ModelSerializer):
 
 
 class PhanAnhSerializer(serializers.ModelSerializer):
+    user  = UserSerializer( read_only=True)
     class Meta:
         model = PhanAnh
-        fields = ['id', 'name', 'noiDung', 'image', 'user_id']
+        fields = ['id', 'name', 'noiDung', 'image', 'user_id','user']
+
 
 
 class HangHoaSerializer(ItemSerializer):
