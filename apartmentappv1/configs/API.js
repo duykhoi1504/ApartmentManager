@@ -1,6 +1,6 @@
 import axios from "axios";
-// const BASE_URL="http://192.168.1.16:8000/"
-const BASE_URL="http://10.0.1.138:8000/"
+const BASE_URL="http://192.168.1.15:8000/"
+// const BASE_URL="http://10.0.1.138:8000/"
 
 
 export const endpoints ={
@@ -8,6 +8,9 @@ export const endpoints ={
     'hanghoas':'/hanghoas/',
     'hanghoa-details': (hanghoaId) => `/hanghoas/${hanghoaId}/`,
     'phananhs':'/phananhs/',
+    'register':'/users/',
+    'login':'/o/token/',
+    'current-user':'/users/current-user/',
     'users':'/users/',
     'getUser':(userId) => `/users/${userId}/`,
 }
