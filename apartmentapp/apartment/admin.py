@@ -28,12 +28,27 @@ class MyApartmentAdminSite(admin.AdminSite):
         residents_in_normal_apartment = CanHo.objects.filter(loaiCanHo='normal').aggregate(
             n_residents=Count('userMembers')
         )
-        can_ho_userMembers=CanHo.userMembers.through.objects.all().order_by('user_id')
+        can_ho_userMembers = CanHo.userMembers.through.objects.all().order_by('user_id')
 
         hoa_don = HoaDon.objects.annotate(count=Sum('dichVu__giaDV')).values("id", "name", "count")
 
         hoa_don_dich_vu = HoaDon.dichVu.through.objects.all()
         dich_vu = DichVu.objects.all()
+
+        phieu_khao_sat = PhieuKhaoSat.objects.all().prefetch_related('cau_hoi_khao_sat__dap_an_khao_sat')
+        cau_hoi_dap_an = []
+        for pks in phieu_khao_sat:
+            cauHoi = []
+            for q in pks.cau_hoi_khao_sat.all():
+                cauHoi.append({
+                    'cau_hoi': q.cauHoi,
+                    'so_dap_an': q.dap_an_khao_sat.count()
+                })
+            cau_hoi_dap_an.append({
+                'tieuDe': pks.tieuDe,
+                'cauHoi': cauHoi
+            })
+
         return TemplateResponse(request, 'admin/stats.html', {
             "apartment_stats": apartment_stats,
             "apartmentdetail_stats": apartmentdetail_stats,
@@ -44,6 +59,7 @@ class MyApartmentAdminSite(admin.AdminSite):
             "residents_in_vip_apartment": residents_in_vip_apartment,
             "residents_in_normal_apartment": residents_in_normal_apartment,
             "can_ho_userMembers": can_ho_userMembers,
+            'cau_hoi_dap_an': cau_hoi_dap_an,
         })
 
 
