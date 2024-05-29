@@ -1,11 +1,13 @@
 
 import MyStyles from "../../styles/MyStyles";
-import APIs, { endpoints } from "../../configs/API";
+
 import React from "react";
 import { Chip, List,Searchbar } from "react-native-paper";
 import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
 import moment from "moment";
 import { isCloseToBottom } from "../../Utils/Utils";
+import APIs, { endpoints } from "../../configs/APIs";
+
 const Tudodientu = ({navigation}) => {
 
     const[tudodientus,setTudodientus]=React.useState(null);

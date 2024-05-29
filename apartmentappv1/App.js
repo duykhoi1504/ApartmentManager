@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useContext, useReducer } from 'react';
 import Tudodientu from './components/Apartment/Tudodientu/';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,8 +10,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-paper';
 import Home from './components/Apartment/Home';
 import Phananh from './components/Apartment/Phananh';
-
-
+import { MyDispatchContext, MyUserContext } from './configs/Contexts';
+import MyUserReducer from './configs/Reducers';
+import Profile from './components/User/Profile';
 const Stack = createNativeStackNavigator();
 const MyStack = () => {
   return(
@@ -27,20 +28,35 @@ const MyStack = () => {
 
 const Tab =createBottomTabNavigator();
 const MyTab = () => {
+  const user= useContext(MyUserContext)
+
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="home" />}} />
       <Tab.Screen name="Search" component={Tudodientu} options={{tabBarIcon: () => <Icon size={30} color="blue" source="text-search" />}} />
-      <Tab.Screen name="Register" component={Register} options={{tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
+      
+      {user===null?<>
+        <Tab.Screen name="Register" component={Register} options={{tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
       <Tab.Screen name="Login" component={Login} options={{tabBarIcon: () => <Icon size={30} color="blue" source="login" />}} />
+       </>:<>
+      <Tab.Screen name="Login" component={Profile} options={{title:user.username, tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
+       
+       </>}
+
+      
     </Tab.Navigator>
   );
 }
 export default function App(){
+  const [user,dispatch]=useReducer(MyUserReducer,null)
   return (
     <NavigationContainer>
-    <MyTab />
-   </NavigationContainer>
+      <MyUserContext.Provider value={user}>
+        <MyDispatchContext.Provider value={dispatch}>
+          <MyTab />
+        </MyDispatchContext.Provider>
+      </MyUserContext.Provider>
+    </NavigationContainer>
 
   );
 }

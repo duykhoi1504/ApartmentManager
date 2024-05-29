@@ -1,8 +1,9 @@
 import MyStyles from "../../styles/MyStyles";
 import { View, ActivityIndicator } from "react-native"
 import React from 'react';
-import APIs, { endpoints } from "../../configs/API";
+
 import { Card, Text } from "react-native-paper"
+import APIs, { endpoints } from "../../configs/APIs";
 const HanghoaDetails = ({route}) => {
     
     const [hanghoa, setHanghoa] = React.useState(null);

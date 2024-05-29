@@ -3,8 +3,9 @@ import { View, StyleSheet, Text, Alert,Image, KeyboardAvoidingView, Platform, Sc
 import MyStyles from "../../styles/MyStyles";
 import { TextInput, TouchableRipple,Button, HelperText } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
-import APIs, { endpoints } from '../../configs/API';
+
 import { useNavigation } from '@react-navigation/native';
+import APIs, { endpoints } from '../../configs/APIs';
 const Register = ({ navigation }) => {
     // const [username, setUsername] = useState('');
     // const [email, setEmail] = useState('');

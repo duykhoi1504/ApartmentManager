@@ -1,12 +1,13 @@
 
 import MyStyles from "../../styles/MyStyles";
-import APIs, { endpoints } from "../../configs/API";
+
 import React from "react";
 import { Avatar, Button, Card, Chip, List,Searchbar } from "react-native-paper";
 import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
 import moment from "moment";
 import { isCloseToBottom } from "../../Utils/Utils";
 import RenderHTML from "react-native-render-html";
+import APIs, { endpoints } from "../../configs/APIs";
 const Phananh = () => {
     const[phananhs,setPhananhs]=React.useState(null);
     const[phananhId,setPhananhId]=React.useState("");

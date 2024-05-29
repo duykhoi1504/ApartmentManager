@@ -1,6 +1,6 @@
 
 import MyStyles from "../../styles/MyStyles";
-import APIs, { endpoints } from "../../configs/API";
+
 import React, { useState } from "react";
 import { Chip, List,Menu,Searchbar,Avatar,Card, IconButton, Badge, Switch, TextInput  } from "react-native-paper";
 import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";

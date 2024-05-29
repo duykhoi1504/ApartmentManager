@@ -31,8 +31,8 @@ SECRET_KEY = 'django-insecure-0@pced*bxa-*dxvzdr0))xwv_mprmnsmo*z516af)(y%&mpk(v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.1.15","10.0.1.138","10.20.1.228"]
-
+ALLOWED_HOSTS = ["10.10.1.73"]
+# OAUTH2_PROVIDER = { 'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore' }
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +55,7 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
+
 CKEDITOR_UPLOAD_PATH = "images/lessons/"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -148,6 +149,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+OAUTH2_PROVIDER = { 'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore' }
 
 CLIENT_ID='ga4gpva8OJ4DDAiZ2MBfH0XkXYiHG02P1Cdq1UUG'
 CLIENT_SECRET='LaMlOXMiVIyFMgawsCqDzAae5rS2RhcEjLTLAQB23sHzZZlIzL7z2zAqJgILhcqpFOzDk713UrYsO67r5HASxjce6fdBh4d1XZ4iczeNzpla8F8kFDeCC86DsbFOvwXS'
