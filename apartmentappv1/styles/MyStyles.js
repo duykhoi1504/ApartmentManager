@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 export default StyleSheet.create({
     container:{
         flex:1,
@@ -19,5 +20,9 @@ export default StyleSheet.create({
         width:80,
         height:80,
         borderRadius:20,
+    },
+    banner:{
+        flex:0.5,
+        backgroundColor:"#6495ed"
     }
 });

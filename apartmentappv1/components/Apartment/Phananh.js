@@ -31,10 +31,10 @@ const Phananh = () => {
             <View style={ MyStyles.container}>
           <Button icon="plus" mode="contained" onPress={() => console.log('Thêm pa')}>
 Thêm phản ánh
-  </Button>
-            <ScrollView>
+            </Button>
+            <ScrollView >
             {phananhs === null?<ActivityIndicator />:<> 
-            {phananhs.map(c => <Card key={c.id} >
+            {phananhs.map(c => <Card key={c.id} style={MyStyles.margin} >
                 <Card.Title title={c.name} subtitle={c.user.username} 
                  left={(props) => <Avatar.Image {...props} source={{ uri: `https://res.cloudinary.com/dawe6629q/${c.user.avatar}` }} />}
                   />

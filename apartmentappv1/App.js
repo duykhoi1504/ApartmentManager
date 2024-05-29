@@ -21,7 +21,7 @@ const MyStack = () => {
       <Stack.Screen name="Tudodientu" component={Tudodientu} options={{title:"Tủ đồ điện tử"}}/>
       <Stack.Screen name="HanghoaDetails" component={HanghoaDetails} options={{title:"Chi tiết hóa đơn"}}/>
       <Stack.Screen name="Phananh" component={Phananh} options={{title:"Phan anh"}}/>
-
+      
     </Stack.Navigator>
   )
 }
@@ -32,14 +32,14 @@ const MyTab = () => {
 
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="home" />}} />
-      <Tab.Screen name="Search" component={Tudodientu} options={{tabBarIcon: () => <Icon size={30} color="blue" source="text-search" />}} />
-      
       {user===null?<>
+        <Tab.Screen name="Login" component={Login} options={{tabBarIcon: () => <Icon size={30} color="blue" source="login" />}} />
         <Tab.Screen name="Register" component={Register} options={{tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
-      <Tab.Screen name="Login" component={Login} options={{tabBarIcon: () => <Icon size={30} color="blue" source="login" />}} />
+
        </>:<>
-      <Tab.Screen name="Login" component={Profile} options={{title:user.username, tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
+       <Tab.Screen name="Home" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="home" />}} />
+      <Tab.Screen name="FUNC" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="function" />}} />
+      <Tab.Screen name="Profile" component={Profile} options={{title:user.username, tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
        
        </>}
 
@@ -48,9 +48,13 @@ const MyTab = () => {
   );
 }
 export default function App(){
+      // khởi tạo reducer với MyUserReducer và thiết lập trạng thái ban đầu là null.
+      //Component MyUserContext.Provider làm cho trạng thái user khả dụng với bất kỳ component lồng nào gọi useContext(MyUserContext).
+      //Component MyDispatchContext.Provider làm cho hàm dispatch khả dụng với bất kỳ component lồng nào gọi useContext(MyDispatchContext).
   const [user,dispatch]=useReducer(MyUserReducer,null)
   return (
     <NavigationContainer>
+
       <MyUserContext.Provider value={user}>
         <MyDispatchContext.Provider value={dispatch}>
           <MyTab />

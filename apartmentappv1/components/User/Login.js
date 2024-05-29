@@ -50,6 +50,7 @@ const Login = () =>{
         let user = await authApi(res.data.access_token).get(endpoints['current-user']);
       console.info(user.data);
 
+      //dispatch: Được lấy từ MyDispatchContext để dispatch các hành động cập nhật trạng thái người dùng toàn cục.
       dispatch({
         'type': "login",
         'payload': user.data
