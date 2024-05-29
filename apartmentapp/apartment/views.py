@@ -59,6 +59,7 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView,generics.ListAPIView,g
         instance.is_active= not instance.is_active
         instance.save()
         return Response(serializers.UserSerializer(instance).data)
+
 class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
     queryset = HoaDon.objects.filter(active=True)
     serializer_class = serializers.HoaDonSerializer
@@ -148,9 +149,21 @@ class TuDoDienTuViewSet(viewsets.ViewSet,generics.ListAPIView, generics.Retrieve
 
 
 
-class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.RetrieveAPIView):
+class PhieuKhaoSatViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.ListAPIView, generics.CreateAPIView):
     queryset = PhieuKhaoSat.objects.all()
     serializer_class = serializers.PhieuKhaoSatSerializer
+
+    def get_permissions(self):
+        if self.action == 'add_cauhoikhaosat':
+            return [permissions.IsAdminUser()]
+        return [permissions.AllowAny()]
+
+    @action(methods=['post'], url_path='cauhois', detail=True)
+    def add_cauhoikhaosat(self, request, pk):
+        phieu_khao_sat = self.get_object()
+        cauhoi = CauHoiKhaoSat.objects.create(phieukhaosat_id=phieu_khao_sat.id, cauHoi=request.data.get('cauHoi'))
+        return Response(serializers.CauHoiKhaoSatSerializer(cauhoi).data, status=status.HTTP_201_CREATED)
+
     @action(methods=['post'], url_path=r'dapans/(?P<cauhoikhaosat_id>\d+)', detail=True)
     def add_dapan(self, request, pk,cauhoikhaosat_id):
         phieu_khao_sat = self.get_object()
@@ -162,6 +175,11 @@ class PhieuKhaoSatViewSet(viewsets.ViewSet,generics.RetrieveAPIView):
             active=True
         )
         return Response(serializers.DapAnKhaoSatSerializer(dapan).data, status=status.HTTP_201_CREATED)
+
+class CauHoiKhaoSatViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = CauHoiKhaoSat.objects.all()
+    serializer_class = serializers.CauHoiKhaoSatSerializer
+
 class DapAnKhaoSatViewSet(viewsets.ViewSet,generics.ListAPIView):
     queryset = DapAnKhaoSat.objects.all()
     serializer_class = serializers.DapAnKhaoSatSerializer

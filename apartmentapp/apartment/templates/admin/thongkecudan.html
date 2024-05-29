@@ -1,0 +1,56 @@
+<!-- Table 2 - Bootstrap Brain Component -->
+<section class="py-3 py-md-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9 col-xl-8">
+                <div class="card widget-card border-light shadow-sm">
+                    <div class="card-body p-4">
+                        <h5 class="card-title widget-card-title mb-4">Thống kê cư dân</h5>
+                        <div class="table-responsive">
+                            <table class="table table-borderless bsb-table-xl text-nowrap align-middle m-0">
+                                <thead>
+                                <tr>
+                                    <th>Mã cư dân</th>
+                                    <th>Tên cư dân</th>
+                                    <th>Căn hộ</th>
+                                    <th>Loại căn hộ</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for c in can_ho_userMembers %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                        <span class="fs-6 bsb-w-35 bsb-h-35 text-bg-primary rounded-circle d-flex align-items-center justify-content-center me-2">
+                          <i class="bi bi-twitter-x"></i>
+                        </span>
+                                            <div>
+                                                <h6 class="m-0">{{c.user_id}}</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-1"> {{c.user.first_name}}{{ c.user.last_name}}</h6>
+                                        <span class="text-secondary fs-7">{{c.user.email}}</span>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-1">{{c.canho.name}}</h6>
+                                    </td>
+                                    <td>
+                                        {% if c.canho.loaiCanHo == "vip" %}
+                                        <span class="badge bg-warning bsb-w-85">{{ c.canho.loaiCanHo }}</span>
+                                        {% else %}
+                                        <span class="badge bg-info bsb-w-85">{{ c.canho.loaiCanHo }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

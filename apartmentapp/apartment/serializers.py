@@ -90,14 +90,14 @@ class DapAnKhaoSatSerializer(serializers.ModelSerializer):
         fields = ['id','dapAn']
 
 class CauHoiKhaoSatSerializer(serializers.ModelSerializer):
-    dap_an_khao_sat = DapAnKhaoSatSerializer(many=True, read_only=True)
+    dap_an_khao_sat = DapAnKhaoSatSerializer(many=True)
 
     class Meta:
         model = CauHoiKhaoSat
-        fields = ['cauHoi', 'dap_an_khao_sat']
+        fields = ['id', 'cauHoi', 'dap_an_khao_sat']
 
 class PhieuKhaoSatSerializer(serializers.ModelSerializer):
-    cau_hoi_khao_sat = CauHoiKhaoSatSerializer(many=True, read_only=True)
+    cau_hoi_khao_sat = CauHoiKhaoSatSerializer(many=True)
 
     class Meta:
         model = PhieuKhaoSat
