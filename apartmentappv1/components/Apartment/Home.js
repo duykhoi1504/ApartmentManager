@@ -13,6 +13,7 @@ const user= useContext(MyUserContext)
     return(
          
         <View style={MyStyles.container}>
+         
             <View leadingIcon='text-long'>
                 {/* <Text>notifications_ICON</Text>
             <Badge> 3</Badge> */}

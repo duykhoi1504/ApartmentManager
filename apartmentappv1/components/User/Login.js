@@ -49,12 +49,13 @@ const Login = () =>{
       setTimeout(async () =>{
         let user = await authApi(res.data.access_token).get(endpoints['current-user']);
       console.info(user.data);
-
+      const token = res.data.access_token;
       //dispatch: Được lấy từ MyDispatchContext để dispatch các hành động cập nhật trạng thái người dùng toàn cục.
       dispatch({
         'type': "login",
-        'payload': user.data
+        'payload': {...user.data,access_token: token}
     })
+    
 
     nav.navigate('Home');
 

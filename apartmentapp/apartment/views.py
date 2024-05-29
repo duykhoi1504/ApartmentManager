@@ -60,7 +60,7 @@ class UserViewSet(viewsets.ViewSet,generics.CreateAPIView,generics.ListAPIView,g
         instance.save()
         return Response(serializers.UserSerializer(instance).data)
 
-class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView):
+class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView,generics.CreateAPIView):
     queryset = HoaDon.objects.filter(active=True)
     serializer_class = serializers.HoaDonSerializer
     permission_classes = [perms.HoaDonOwner]

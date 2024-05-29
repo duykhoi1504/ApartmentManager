@@ -13,6 +13,8 @@ import Phananh from './components/Apartment/Phananh';
 import { MyDispatchContext, MyUserContext } from './configs/Contexts';
 import MyUserReducer from './configs/Reducers';
 import Profile from './components/User/Profile';
+import FABGroupSceen from './components/Apartment/FABGroupSceen';
+import ThemPhanAnh from './components/Apartment/Themphananh';
 const Stack = createNativeStackNavigator();
 const MyStack = () => {
   return(
@@ -21,16 +23,17 @@ const MyStack = () => {
       <Stack.Screen name="Tudodientu" component={Tudodientu} options={{title:"Tủ đồ điện tử"}}/>
       <Stack.Screen name="HanghoaDetails" component={HanghoaDetails} options={{title:"Chi tiết hóa đơn"}}/>
       <Stack.Screen name="Phananh" component={Phananh} options={{title:"Phan anh"}}/>
-      
+      <Stack.Screen name="Themphananh" component={ThemPhanAnh} options={{title:"Them Phan anh"}}/>
     </Stack.Navigator>
+    
   )
 }
 
 const Tab =createBottomTabNavigator();
 const MyTab = () => {
   const user= useContext(MyUserContext)
-
   return (
+    <React.Fragment>
     <Tab.Navigator>
       {user===null?<>
         <Tab.Screen name="Login" component={Login} options={{tabBarIcon: () => <Icon size={30} color="blue" source="login" />}} />
@@ -40,11 +43,13 @@ const MyTab = () => {
        <Tab.Screen name="Home" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="home" />}} />
       <Tab.Screen name="FUNC" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="function" />}} />
       <Tab.Screen name="Profile" component={Profile} options={{title:user.username, tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
-       
-       </>}
+      <Tab.Screen name="FAB" component={FABGroupSceen} options={{title:user.username, tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
+         
+       </>}  
 
-      
     </Tab.Navigator>
+
+    </React.Fragment>
   );
 }
 export default function App(){
@@ -57,7 +62,10 @@ export default function App(){
 
       <MyUserContext.Provider value={user}>
         <MyDispatchContext.Provider value={dispatch}>
+    
           <MyTab />
+
+      
         </MyDispatchContext.Provider>
       </MyUserContext.Provider>
     </NavigationContainer>
