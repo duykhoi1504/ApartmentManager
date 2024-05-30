@@ -8,8 +8,15 @@ import { useNavigation } from '@react-navigation/native';
 import APIs, { authApi, endpoints } from '../../configs/APIs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MyDispatchContext } from '../../configs/Contexts';
+import { Firestore } from 'firebase/firestore';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore'
+import app from '../../firebaseConfig';
+
 
 const Login = () =>{
+
+
 
   const fields=[{
     label:"Tên đăng nhập",
@@ -25,6 +32,21 @@ const Login = () =>{
   const [loading,setLoading]=useState(false);
   const dispatch=useContext(MyDispatchContext)
   const nav= useNavigation();
+
+
+  const db = getFirestore(app);
+
+  const addUserToFirestore = async (user) => {
+    try {
+      // Thêm người dùng vào collection 'users' trong Firestore
+      await addDoc(collection(db, 'users'), user);
+      console.log('User added successfully.');
+    } catch (error) {
+      console.error('Error adding user to Firestore: ', error);
+      // Xử lý lỗi nếu cần thiết
+    }
+  };
+
 
 
   const updateSate = (field, value) => {
@@ -56,7 +78,8 @@ const Login = () =>{
         'payload': {...user.data,access_token: token}
     })
     
-
+    // Thêm người dùng vào Firestore
+    await addUserToFirestore(user.data);
     nav.navigate('Home');
 
 

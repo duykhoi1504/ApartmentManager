@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486205498209",
+    "project_id": "apartmentapp-aff43",
+    "storage_bucket": "apartmentapp-aff43.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486205498209:android:e1adaa5e7b6a714c705b20",
+        "android_client_info": {
+          "package_name": "com.ecoursemobilev1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSb8_9Vc_b1T8AcXsMHgH535P7dFYqaBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
