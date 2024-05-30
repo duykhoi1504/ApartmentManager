@@ -15,6 +15,8 @@ import MyUserReducer from './configs/Reducers';
 import Profile from './components/User/Profile';
 import FABGroupSceen from './components/Apartment/FABGroupSceen';
 import ThemPhanAnh from './components/Apartment/Themphananh';
+
+import Users from './components/Apartment/Users';
 import ChatApp from './components/Apartment/Chatapp';
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +29,8 @@ const MyStack = () => {
       <Stack.Screen name="Phananh" component={Phananh} options={{title:"Phan anh"}}/>
       <Stack.Screen name="Themphananh" component={ThemPhanAnh} options={{title:"Them Phan anh"}}/>
       <Stack.Screen name="ChatApp" component={ChatApp} options={{title:"chat"}}/>
+      <Stack.Screen name="Users" component={Users} options={{title:"users"}}/>
+     
     </Stack.Navigator>
     
   )
@@ -46,7 +50,7 @@ const MyTab = () => {
        <Tab.Screen name="Home" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="home" />}} />
       <Tab.Screen name="FUNC" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="function" />}} />
       <Tab.Screen name="Profile" component={Profile} options={{title:user.username, tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
-      <Tab.Screen name="FAB" component={ChatApp} options={{title:"chat", tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
+      <Tab.Screen name="Users" component={Users} options={{title:"chat", tabBarIcon: () => <Icon size={30} color="blue" source="group" />}} />
          
        </>}  
 
