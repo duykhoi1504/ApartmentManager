@@ -36,13 +36,14 @@ const Phananh = () => {
      
             <View style={ MyStyles.container}>
           <Button icon="plus" mode="contained" onPress={() => {nav.navigate('Themphananh')}}>
-Thêm phản ánh
+                                Thêm phản ánh
             </Button>
             <ScrollView >
             {phananhs === null?<ActivityIndicator />:<> 
             {phananhs.map(c => <Card key={c.id} style={MyStyles.margin} >
                 <Card.Title title={c.name} subtitle={c.user.username} 
-                 left={(props) => <Avatar.Image {...props} source={{ uri: `https://res.cloudinary.com/dawe6629q/${c.user.avatar}` }} />}
+                left={(props) => <Avatar.Image {...props} source={{ uri: c.user.avatar}} />}
+                //  left={(props) => <Avatar.Image {...props} source={{ uri: `https://res.cloudinary.com/dawe6629q/${c.user.avatar}` }} />}
                   />
                 
                 <Card.Content>
@@ -50,8 +51,11 @@ Thêm phản ánh
                <RenderHTML source={{html: c.noiDung}}/>
                 </Card.Content>
           {/* https://res.cloudinary.com/dawe6629q/ */}
-                {/* <Card.Cover source={{ uri: c.image }} /> */}
-                <Card.Cover source={{ uri: `https://res.cloudinary.com/dawe6629q/${c.image}` }} />
+                <Card.Cover source={{ uri: c.image }} />
+                {/* <Card.Cover source={{ uri:`https://res.cloudinary.com/dawe6629q/${c.image}` }} /> */}
+                <Text>{moment(c.created_date).calendar()}</Text>
+                
+            
                 <Card.Actions>
                 <Button>Cancel</Button>
                 <Button>Detail</Button>

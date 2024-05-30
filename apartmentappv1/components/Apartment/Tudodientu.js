@@ -94,6 +94,7 @@ const Tudodientu = ({navigation}) => {
             {loading && <ActivityIndicator />}
             {hanghoas.map(c => <TouchableOpacity key={c.id} onPress={() => navigation.navigate("HanghoaDetails",{hanghoaId: c.id})}>
                 <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />
+               
                 </TouchableOpacity>
                 )}
             {/* {hanghoas && hanghoas.length > 0 ? (

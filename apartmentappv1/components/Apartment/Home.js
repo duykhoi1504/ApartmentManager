@@ -18,12 +18,12 @@ const user= useContext(MyUserContext)
                 {/* <Text>notifications_ICON</Text>
             <Badge> 3</Badge> */}
             </View>
-           
+          
              {/* <Avatar.Image size={90} source={require('../../assets/house1.jpg')} /> */}
              <Card.Title style={MyStyles.banner}
                 title={user.username}
                 subtitle="thuộc căn hộ"
-                left={(props) => <Avatar.Image size={50}  source={{ uri: `https://res.cloudinary.com/dawe6629q/${user.avatar}`}} />}
+                left={(props) => <Avatar.Image size={50}  source={{ uri: user.avatar}} />}
                 right={(props) => <IconButton {...props} icon="dots-vertical" onPress={() =>{navigation.navigate("Home")}} />}
   />            
             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Tudodientu")} title="Danh sách tủ đồ" />

@@ -12,6 +12,19 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        image_url = representation.get('avatar')
+        cloudinary_base_url = "https://res.cloudinary.com/dawe6629q/"
+
+        if image_url and not image_url.startswith('http'):
+            # Prepend the Cloudinary base URL if not already included
+            image_url = cloudinary_base_url + image_url
+            representation['avatar'] = image_url
+
+        return representation
+
     class Meta:
         model=User
         fields=['id','first_name','last_name','email','username','password','avatar', 'role','is_active']
@@ -46,12 +59,23 @@ class HoaDonSerializer(serializers.ModelSerializer):
 
 
 
-class PhanAnhSerializer(serializers.ModelSerializer):
+class PhanAnhSerializer(ItemSerializer):
     user  = UserSerializer( read_only=True)
     class Meta:
         model = PhanAnh
         fields = ['id', 'name', 'noiDung', 'image', 'user_id','user']
 
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     image_url = representation.get('image')
+    #     cloudinary_base_url = "https://res.cloudinary.com/dawe6629q/"
+    #
+    #     if image_url and not image_url.startswith('http'):
+    #         # Prepend the Cloudinary base URL if not already included
+    #         image_url = cloudinary_base_url + image_url
+    #         representation['image'] = image_url
+    #
+    #     return representation
 
 
 class HangHoaSerializer(ItemSerializer):

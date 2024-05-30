@@ -11,8 +11,9 @@ const Profile = () => {
     return (
         <View style={[MyStyles.container, MyStyles.margin]}>
             <Text style={MyStyles.subject}>CHÀO {user.username}</Text>
+   
 
-            <Image style={MyStyles.avatar} source={{ uri: `https://res.cloudinary.com/dawe6629q/${user.avatar}` }} />
+            <Image style={MyStyles.avatar} source={{ uri: user.avatar }} />
             <Text style={MyStyles.subject}>{user.email}!</Text>
             <Button icon="logout" onPress={() => dispatch({"type": "logout"})}>Đăng xuất</Button>
         </View>

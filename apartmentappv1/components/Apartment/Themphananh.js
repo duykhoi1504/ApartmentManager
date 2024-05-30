@@ -5,6 +5,10 @@ import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 import APIs, { endpoints } from '../../configs/APIs';
 import { MyUserContext } from '../../configs/Contexts';
+// import { uploadToCloudinary } from '../../configs/cloudinaryService';
+
+
+
 
 const Themphananh = () => {
   const user= useContext(MyUserContext)
@@ -15,6 +19,9 @@ const Themphananh = () => {
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState(''); 
 
+
+
+
   const handleChoosePhoto = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -24,6 +31,7 @@ const Themphananh = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
+      
         quality: 1,
       });
       if (!result.canceled) {
@@ -50,6 +58,9 @@ const Themphananh = () => {
         {
           text: 'Đồng ý',
           onPress: async () => {
+            // const cloudinaryURL = await uploadToCloudinary(image);
+          
+           
             const formData = new FormData();
             formData.append('name', name);
             formData.append('noiDung', noiDung);
