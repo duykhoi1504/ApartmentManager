@@ -16,6 +16,7 @@ export const endpoints ={
     'current-user':'/users/current-user/',
     'users':'/users/',
     'getUser':(userId) => `/users/${userId}/`,
+    'nguoithans': '/nguoithans/',
 }
 
 export const authApi = (token) => {

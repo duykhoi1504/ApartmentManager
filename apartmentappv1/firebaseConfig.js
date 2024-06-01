@@ -93,6 +93,7 @@ import { initializeApp } from 'firebase/app';
 
 // Your Firebase configuration
 const firebaseConfig = {
+  //catilen
   apiKey: "AIzaSyAa8EFYwSaNyJGW9n-9icSb_gpzpxgxf_k",
   authDomain: "apartmentapp-aff43.firebaseapp.com",
   projectId: "apartmentapp-aff43",
@@ -100,6 +101,14 @@ const firebaseConfig = {
   messagingSenderId: "486205498209",
   appId: "1:486205498209:web:5031d8872b406136705b20",
   measurementId: "G-60SGD61748"
+  //nha
+  // apiKey: "AIzaSyBJHmv6SY1SI5KFGRoqeaB5GWnwoaQ7E78",
+  // authDomain: "testt-7a7e5.firebaseapp.com",
+  // projectId: "testt-7a7e5",
+  // storageBucket: "testt-7a7e5.appspot.com",
+  // messagingSenderId: "854469389273",
+  // appId: "1:854469389273:web:9a41b5b0a05711d18687c8",
+  // measurementId: "G-LL6XFWM2Q0"
 };
 
 // Initialize Firebase

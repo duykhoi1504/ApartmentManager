@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, View, Text, ActivityIndicator, Image } from "react-native";
+import { TouchableOpacity, View, Text, ActivityIndicator, Image, ScrollView } from "react-native";
 import moment from "moment";
 import { List } from "react-native-paper";
 import APIs, { endpoints } from "../../configs/APIs";
@@ -29,11 +29,13 @@ const Users = () =>{
     return(
         <View>
         <Text>DANH SACH USER</Text>
+        <ScrollView>
         {loading && <ActivityIndicator />}
         {users.map(c =>    <TouchableOpacity key={c.id} onPress={() => nav.navigate('ChatApp', { user: c })}>
                 <List.Item style={MyStyles.margin} key={c.id} title={c.username} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.avatar }} />} />
                 </TouchableOpacity>
                 )}
+            </ScrollView>   
         </View>
     )
 }

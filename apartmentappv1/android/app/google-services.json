@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:486205498209:android:e1adaa5e7b6a714c705b20",
+        "mobilesdk_app_id": "1:486205498209:android:120a4cd38a35fb4f705b20",
         "android_client_info": {
-          "package_name": "com.ecoursemobilev1"
+          "package_name": "com.apartmentappv1"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "486205498209-loic64rdqv3fufoksoinkvtoj6bv0rgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBSb8_9Vc_b1T8AcXsMHgH535P7dFYqaBw"
@@ -20,7 +25,41 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486205498209-loic64rdqv3fufoksoinkvtoj6bv0rgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486205498209:android:e1adaa5e7b6a714c705b20",
+        "android_client_info": {
+          "package_name": "com.ecoursemobilev1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486205498209-loic64rdqv3fufoksoinkvtoj6bv0rgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSb8_9Vc_b1T8AcXsMHgH535P7dFYqaBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486205498209-loic64rdqv3fufoksoinkvtoj6bv0rgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

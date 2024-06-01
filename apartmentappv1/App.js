@@ -1,5 +1,5 @@
 
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import Tudodientu from './components/Apartment/Tudodientu/';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,10 +16,20 @@ import Profile from './components/User/Profile';
 import FABGroupSceen from './components/Apartment/FABGroupSceen';
 import ThemPhanAnh from './components/Apartment/Themphananh';
 
+import app from './firebaseConfig';
+import { initializeApp } from 'firebase/app';
 import Users from './components/Apartment/Users';
 import ChatApp from './components/Apartment/Chatapp';
+import messaging from '@react-native-firebase/messaging';
+import {Alert, PermissionsAndroid} from 'react-native';
+import TheXeNguoiThan from './components/Apartment/TheXeNguoiThan';
+
+
+
+
 
 const Stack = createNativeStackNavigator();
+
 const MyStack = () => {
   return(
     <Stack.Navigator screenOptions={{headerShown:false}}>
@@ -30,7 +40,7 @@ const MyStack = () => {
       <Stack.Screen name="Themphananh" component={ThemPhanAnh} options={{title:"Them Phan anh"}}/>
       <Stack.Screen name="ChatApp" component={ChatApp} options={{title:"chat"}}/>
       <Stack.Screen name="Users" component={Users} options={{title:"users"}}/>
-     
+      <Stack.Screen name="TheXeNguoiThan" component={TheXeNguoiThan} options={{title:"Đăng kí thông tin người thân"}}/>
     </Stack.Navigator>
     
   )
@@ -45,7 +55,6 @@ const MyTab = () => {
       {user===null?<>
         <Tab.Screen name="Login" component={Login} options={{tabBarIcon: () => <Icon size={30} color="blue" source="login" />}} />
         <Tab.Screen name="Register" component={Register} options={{tabBarIcon: () => <Icon size={30} color="blue" source="account" />}} />
-
        </>:<>
        <Tab.Screen name="Home" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="home" />}} />
       <Tab.Screen name="FUNC" component={MyStack} options={{tabBarIcon: () => <Icon size={30} color="blue" source="function" />}} />
@@ -59,7 +68,16 @@ const MyTab = () => {
     </React.Fragment>
   );
 }
+
 export default function App(){
+
+    
+
+
+  useEffect(() => {
+  
+  }, []);
+  
       // khởi tạo reducer với MyUserReducer và thiết lập trạng thái ban đầu là null.
       //Component MyUserContext.Provider làm cho trạng thái user khả dụng với bất kỳ component lồng nào gọi useContext(MyUserContext).
       //Component MyDispatchContext.Provider làm cho hàm dispatch khả dụng với bất kỳ component lồng nào gọi useContext(MyDispatchContext).

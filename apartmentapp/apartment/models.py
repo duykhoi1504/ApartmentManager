@@ -193,3 +193,10 @@ class TheGiuXe(BaseModel):
 
     def __str__(self):
         return f'{self.id} - thẻ giữ xe của: {self.nguoithan}'
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            self.nguoithan.status = 'pass'
+            self.nguoithan.save()

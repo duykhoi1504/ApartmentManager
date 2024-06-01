@@ -214,9 +214,28 @@ class DapAnKhaoSatViewSet(viewsets.ViewSet,generics.ListAPIView):
 #     }
 #     return Response(data, status=status.HTTP_200_OK)
 
-class NguoiThanViewSet(viewsets.ViewSet,generics.CreateAPIView):
+class NguoiThanViewSet(viewsets.ViewSet, generics.CreateAPIView,generics.ListAPIView):
     # queryset = User.objects.filter(is_active=True)
     queryset = NguoiThan.objects.all()
-
     serializer_class = serializers.NguoiThanSerializer
 
+    def get_permissions(self):
+        if self.action == 'create':
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
+
+    def create(self, request, *args, **kwargs):
+        # Lấy người dùng hiện tại
+        user = request.user
+
+        # Tạo bản ghi mới
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=user)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class DichVuViewSet(viewsets.ViewSet,generics.ListAPIView):
+    queryset = DichVu.objects.all()
+    serializer_class = serializers.DichVuSerializer
+    pagination_class = paginators.DichVuPaginator
