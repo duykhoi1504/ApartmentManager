@@ -10,4 +10,4 @@ class PhanAnhPaginator(pagination.PageNumberPagination):
     page_size =6
 
 class HoaDonPaginator(pagination.PageNumberPagination):
-    page_size = 6
+    page_size = 10

@@ -66,15 +66,15 @@ class HoaDonViewSet(viewsets.ViewSet, generics.RetrieveAPIView,generics.CreateAP
     queryset = HoaDon.objects.all()
     serializer_class = serializers.HoaDonSerializer
     # permission_classes = [perms.HoaDonOwner]
-    # pagination_class =paginators.HoaDonPaginator
+    pagination_class =paginators.HoaDonPaginator
+
     def get_queryset(self):
         # Get Hang hoa theo name và get hang hoa theo từng mã tủ đồ
         # queryset=HoaDon.objects.filter(status='pending')
         queryset = self.queryset
-        q = self.request.query_params.get('status')
-        if q:
-            queryset = queryset.filter(status=q)
-
+        status = self.request.query_params.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
         return queryset
     def create(self, request, *args, **kwargs):
         # Lấy người dùng hiện tại

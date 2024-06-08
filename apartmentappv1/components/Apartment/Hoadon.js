@@ -36,11 +36,12 @@ const Hoadon = () => {
                 },
                 params: {
                 status: status,
-                user: user.id,// Thêm điều kiện lọc theo userId
+                user: user.id
+                
                 }
             });
-            console.log(res.data)
-            setHoadons(res.data.filter(item => item.user.id === user.id));
+            // console.log(res.data)
+            setHoadons(res.data.results.filter(item => item.user.id === user.id));
             
             } catch (ex) {
             console.error(ex);
@@ -57,9 +58,14 @@ const Hoadon = () => {
 
 
    const handleButtonPress = (newStatus) => {
-       setStatus(newStatus);
-       setSelectedButton(newStatus);
-   };
+    if (newStatus === selectedButton) {
+        setStatus(null); // Nếu nút được nhấn trước đó đã được chọn lại, đặt trạng thái thành null (Tất cả)
+        setSelectedButton('');
+    } else {
+        setStatus(newStatus);
+        setSelectedButton(newStatus);
+    }
+};
 
 
    return (

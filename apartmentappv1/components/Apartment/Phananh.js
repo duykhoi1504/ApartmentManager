@@ -54,7 +54,7 @@ const Phananh = () => {
 
     return(
      
-            <View style={ MyStyles.container}>
+        <View style={ MyStyles.container}>
             <Button icon="plus" mode="contained" onPress={() => {nav.navigate('Themphananh')}}>Thêm phản ánh</Button>
             <ScrollView onScroll={loadMore} >
             <RefreshControl onRefresh={ () => loahPhananhs()}/>
