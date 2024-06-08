@@ -23,6 +23,9 @@ import ChatApp from './components/Apartment/Chatapp';
 import messaging from '@react-native-firebase/messaging';
 import {Alert, PermissionsAndroid} from 'react-native';
 import TheXeNguoiThan from './components/Apartment/TheXeNguoiThan';
+import Dichvu from './components/Apartment/Dichvu';
+import Hoadon from './components/Apartment/Hoadon';
+import Hoadondetails from './components/Apartment/Hoadondetails';
 
 
 
@@ -40,6 +43,9 @@ const MyStack = () => {
       <Stack.Screen name="Themphananh" component={ThemPhanAnh} options={{title:"Them Phan anh"}}/>
       <Stack.Screen name="ChatApp" component={ChatApp} options={{title:"chat"}}/>
       <Stack.Screen name="Users" component={Users} options={{title:"users"}}/>
+      <Stack.Screen name="Dichvu" component={Dichvu} options={{title:"Dịch vụ"}}/>
+      <Stack.Screen name="Hoadon" component={Hoadon} options={{title:"Hóa đơn dịch vụ"}}/>
+      <Stack.Screen name="Hoadondetails" component={Hoadondetails} options={{title:"Hóa đơn chi tiết"}}/>
       <Stack.Screen name="TheXeNguoiThan" component={TheXeNguoiThan} options={{title:"Đăng kí thông tin người thân"}}/>
     </Stack.Navigator>
     

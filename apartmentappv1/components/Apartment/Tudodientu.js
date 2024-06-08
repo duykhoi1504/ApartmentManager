@@ -93,15 +93,19 @@ const Tudodientu = ({navigation}) => {
             {/* {hanghoas.map(c => <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />)} */}
             {loading && <ActivityIndicator />}
             {hanghoas.map(c => <TouchableOpacity key={c.id} onPress={() => navigation.navigate("HanghoaDetails",{hanghoaId: c.id})}>
-                <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />
+                <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} 
+                left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />}
+                right={() => <Text style={[
+                    MyStyles.status,
+                    c.status === 'waiting' && MyStyles.pending,
+                    c.status === 'received' && MyStyles.pass
+                ]}>
+                    Trạng thái: {c.status}
+                </Text>} />
                
                 </TouchableOpacity>
                 )}
-            {/* {hanghoas && hanghoas.length > 0 ? (
-                hanghoas.map(c => 
-                <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} left={() => <Image style={MyStyles.avatar} source={{ uri: c.image }} />} />)   
-                    ) : (<Text>Loading or no data available.</Text>)}
-             */}
+            
             {loading && page >1 && <ActivityIndicator />}
         </ScrollView>
                 

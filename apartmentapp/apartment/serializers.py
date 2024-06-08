@@ -51,14 +51,20 @@ class DichVuSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'thongTinDV', 'giaDV']
 
 class HoaDonSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    dichVu = DichVuSerializer(many=True)
+    user = UserSerializer(required=False)
+    dichVu = serializers.PrimaryKeyRelatedField(queryset=DichVu.objects.all(), many=True, write_only=True)
+    dichVu_details = DichVuSerializer(source='dichVu', many=True, read_only=True)
+    # dichVu = serializers.PrimaryKeyRelatedField(queryset=DichVu.objects.all(), many=True)
     class Meta:
         model = HoaDon
-        fields = ['id', 'name', 'thongTinHD', 'payment_image', 'created_date', 'status', 'dichVu','user']
-
-
-
+        fields = ['id', 'name', 'thongTinHD', 'payment_image', 'created_date', 'status', 'dichVu', 'dichVu_details','user']
+    def create(self, validated_data):
+        dichVu_data = validated_data.pop('dichVu')
+        hoadon = HoaDon.objects.create(**validated_data)
+        # Thiết lập mối quan hệ nhiều-nhiều
+        hoadon.dichVu.set(dichVu_data)
+        hoadon.save()
+        return hoadon
 
 class PhanAnhSerializer(ItemSerializer):
     user  = UserSerializer( read_only=True)

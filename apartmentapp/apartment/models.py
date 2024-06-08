@@ -145,20 +145,37 @@ class DichVu(BaseModel):
 
 
 class HoaDon(BaseModel):
+
     STATUS_CHOICES = (
         ('pending', 'Chờ xử lý'),
         ('paid', 'Đã đóng tiền')
     )
-    name = models.CharField(max_length=50, null=True)
+    name = models.CharField(max_length=50, null=True,blank=True)
     thongTinHD=RichTextField()
     # tongTien=models.FloatField()
     payment_image = CloudinaryField(null=True,blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='hoa_don')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,related_name='hoa_don',blank=True)
     # dichVu = models.ManyToManyField(DichVu)
-    dichVu = models.ManyToManyField(DichVu,related_name='hoa_don')
+    dichVu = models.ManyToManyField(DichVu,related_name='hoa_don',blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            # Lấy số lượng hoá đơn hiện có
+            count = HoaDon.objects.count()
+            self.name = f'HD{count + 1}'
+
+        # Kiểm tra trường payment_image và cập nhật trạng thái status
+        if self.payment_image:
+            self.status = 'paid'
+        else:
+            self.status = 'pending'
+
+        super().save(*args, **kwargs)
     def __str__(self):
         return f'{self.name}-{self.user.username} '
+
 
     def tongTien(self):
         dich_vu = self.dichVu.all()

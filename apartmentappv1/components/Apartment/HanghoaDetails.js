@@ -37,6 +37,7 @@ const HanghoaDetails = ({route}) => {
                 
                        <Text variant="titleLarge">{hanghoa.name}</Text>
                        <Text variant="bodyMedium">{hanghoa.status}</Text>
+                       
                    </Card.Content>
                    <Card.Cover source={{ uri: hanghoa.image }} />
                </Card>

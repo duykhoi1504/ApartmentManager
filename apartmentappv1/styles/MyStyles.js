@@ -24,5 +24,18 @@ export default StyleSheet.create({
     banner:{
         flex:0.5,
         backgroundColor:"#6495ed"
-    }
+    },
+    status: {
+        padding: 5,
+        borderRadius: 5,
+        color: 'white',
+        textAlign: 'center',
+    }, 
+    pending: {
+        backgroundColor: 'yellow',
+        color: 'black',
+    },
+    pass: {
+        backgroundColor: 'green',
+    },
 });
