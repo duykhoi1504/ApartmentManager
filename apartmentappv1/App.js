@@ -26,6 +26,7 @@ import TheXeNguoiThan from './components/Apartment/TheXeNguoiThan';
 import Dichvu from './components/Apartment/Dichvu';
 import Hoadon from './components/Apartment/Hoadon';
 import Hoadondetails from './components/Apartment/Hoadondetails';
+import PaymentScreen from './components/Apartment/PaymentScreen';
 
 
 
@@ -47,6 +48,7 @@ const MyStack = () => {
       <Stack.Screen name="Hoadon" component={Hoadon} options={{title:"Hóa đơn dịch vụ"}}/>
       <Stack.Screen name="Hoadondetails" component={Hoadondetails} options={{title:"Hóa đơn chi tiết"}}/>
       <Stack.Screen name="TheXeNguoiThan" component={TheXeNguoiThan} options={{title:"Đăng kí thông tin người thân"}}/>
+      <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{title:"thanh toan hoa dơn trực tuyến"}}/>
     </Stack.Navigator>
     
   )

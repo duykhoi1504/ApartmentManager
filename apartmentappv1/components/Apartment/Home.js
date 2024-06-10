@@ -23,7 +23,8 @@ const Home = ({ navigation }) => {
       { title: "Phản ánh", icon: "account-multiple", navigateTo: "Phananh" },
       { title: "Làm khảo sát", icon: "school", navigateTo: "SchoolScreen" },
       { title: "Đăng kí thẻ xe cho người thân", icon: "briefcase", navigateTo: "TheXeNguoiThan" },
-      { title: "Thông báo", icon: "earth", navigateTo: "Home" }
+      { title: "Thông báo", icon: "earth", navigateTo: "Home" },
+      { title: "payment", icon: "earth", navigateTo: "PaymentScreen" }
       
     ];
     return(
