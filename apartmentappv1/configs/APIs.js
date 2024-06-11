@@ -1,5 +1,5 @@
 import axios from "axios"
-// const BASE_URL="http://192.168.1.15:8000/"
+// const BASE_URL="http://192.168.1.17:8000/"
 const BASE_URL="http://10.0.0.93:8000/"
 // GiangNam
 // const BASE_URL="http://10.10.1.73:8000/"
@@ -21,6 +21,7 @@ export const endpoints ={
     'hoadons': '/hoadons/',
     'themhoadon': '/hoadons/',
     'hoadon-details': (hoadonId) => `/hoadons/${hoadonId}/`,
+    'hoadon-upuynhiemchi': (hoadonId) => `/hoadons/${hoadonId}/upuynhiemchi/`
 }
 
 export const authApi = (token) => {
