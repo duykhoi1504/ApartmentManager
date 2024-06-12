@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from apartment.models import (PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu,
-                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User,NguoiThan)
+                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User,NguoiThan,CanHo)
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -96,13 +96,23 @@ class HangHoaSerializer(ItemSerializer):
         model = HangHoa
         fields = 'id', 'name', 'image', 'created_date', 'active', 'tuDo', 'status'
 
+class CanHoSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    userMembers = UserSerializer(many=True)
 
+    class Meta:
+        model = CanHo
+        fields = ['id', 'name', 'vitri', 'loaiCanHo', 'giaBan', 'user', 'userMembers']
 class TuDoDienTuSerializer(serializers.ModelSerializer):
     hang_hoa=HangHoaSerializer(many=True)
+    # canho = CanHoSerializer()
+    users = serializers.SerializerMethodField()
     class Meta:
         model = TuDoDienTu
-        fields = ['id', 'name', 'created_date', 'updated_date', 'active', 'canho','hang_hoa']
-
+        fields = ['id', 'name', 'created_date', 'updated_date', 'active', 'canho','hang_hoa','users']
+    def get_users(self, obj):
+        users = obj.get_users()
+        return UserSerializer(users, many=True).data
 
 # class PhieuKhaoSatSerializer(serializers.ModelSerializer):
 #     class Meta:

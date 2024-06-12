@@ -102,3 +102,4 @@ admin_site.register(DapAnKhaoSat)
 admin_site.register(TheGiuXe)
 admin_site.register(NguoiThan)
 admin_site.register(User)
+

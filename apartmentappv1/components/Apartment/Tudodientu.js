@@ -1,26 +1,44 @@
 
 import MyStyles from "../../styles/MyStyles";
 
-import React from "react";
+import React, { useContext } from "react";
 import { Chip, List,Searchbar } from "react-native-paper";
 import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
 import moment from "moment";
 import { isCloseToBottom } from "../../Utils/Utils";
 import APIs, { endpoints } from "../../configs/APIs";
+import { MyUserContext } from "../../configs/Contexts";
 
 const Tudodientu = ({navigation}) => {
 
-    const[tudodientus,setTudodientus]=React.useState(null);
+    const[tudodientus,setTudodientus]=React.useState([]);
     const[hanghoas,setHanghoas]=React.useState([]);
     const[loading,setLoading]=React.useState(false);
     const[q, setQ]=React.useState("");
     const[tudoId,setTudoId]=React.useState("");
     const[page,setPage]=React.useState(1);
-
+    const user = useContext(MyUserContext)
     const loadTudo= async () => {
         try{
-            let res=await APIs.get(endpoints['tudodientus']) 
-            setTudodientus(res.data);
+            let res=await APIs.get(endpoints['tudodientus'],{
+                headers: {
+                    'Authorization': `Bearer ${user.access_token}`,
+                },
+                params: {
+                    q: q, // Thêm tham số q vào params
+                    tuDo: tudoId, // Thêm tham số tuDo vào params
+                    page: page // Thêm tham số page vào params
+                },
+            }) 
+            setTudodientus(res.data.filter(tuDo => tuDo.users.some(u => u.id === user.id)));
+            // console.log("=====")
+            // tudodientus.map(c => console.log(c.name))
+           
+            // setTimeout(() => {
+            //     tudodientus.map(c => setTudoId(c.id))
+            //     console.log("test id:", tudoId)    
+            // }, 1000);
+            
         }catch(ex){
             console.error(ex);
         }
@@ -32,12 +50,16 @@ const Tudodientu = ({navigation}) => {
         try{
             setLoading(true);
             let res=await APIs.get(url) 
+            // console.error(res.data.results)
             //co result vi co phan trang
-            if(page===1)
-                setHanghoas(res.data.results);
+
+            let hanghoadataresults=res.data.results.filter(c =>c.tuDo === tudoId)
+            if(page===1){   
+                setHanghoas(hanghoadataresults);
+            }
             else if(page > 1)
                 setHanghoas(current => {
-                    return [...current, ...res.data.results]
+                    return [...current, ...hanghoadataresults]
                 });
             if(res.data.next===null)
                 setPage(0);
@@ -45,16 +67,24 @@ const Tudodientu = ({navigation}) => {
             console.error(ex);
         }finally{
             setLoading(false);
+           
         }
     }
 }
     React.useEffect(() => {
-        loadTudo();
+        loadTudo();   
+       
     },[]);
-
+    React.useEffect(() => {
+        // if (tudodientus.length > 0) {
+        //   setTudoId(tudodientus[0].id);
+        // }
+            tudodientus.map(c=>setTudoId(c.id))
+      }, [tudodientus]);
     React.useEffect(() => {
         loadHanghoas();
     },[q,tudoId,page]);
+    
     
 
     // const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
@@ -77,9 +107,9 @@ const Tudodientu = ({navigation}) => {
     <View style={MyStyles.container}>
         <Text style={MyStyles.subject}>Danh Muc Tu Do</Text>
         <View style={ MyStyles.row}>
-            <Chip mode={!tudoId?"outlined":"flat"} style={MyStyles.margin} onPress={() => search("",setTudoId)} icon="shape-outline">ALL</Chip>
+            {/* <Chip mode={!tudoId?"outlined":"flat"} style={MyStyles.margin} onPress={() => search("",setTudoId)} icon="shape-outline">ALL</Chip> */}
             {tudodientus === null?<ActivityIndicator />:<>
-                {tudodientus.map(c => <Chip mode={tudoId===c.id?"outlined":"flat"} onPress={() => search(c.id,setTudoId)} style={MyStyles.margin} key={c.id} icon="text-long">{c.name}</Chip>)}</>}
+                {tudodientus.map(c => <Chip mode={tudoId===c.id?"outlined":"flat"} onPress={() => search(c.id,setTudoId)} style={MyStyles.margin} key={c.id} icon="text-long">tủ đồ của bạn: {c.name}</Chip>)}</>}
         </View>
 
         <View>

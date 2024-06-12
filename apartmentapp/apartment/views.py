@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, generics, status,parsers,permissions
 from apartment import serializers, paginators,perms
 from apartment.models import (PhanAnh, HangHoa, HoaDon,DichVu, TuDoDienTu,
-                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User,NguoiThan)
+                              PhieuKhaoSat, DapAnKhaoSat, CauHoiKhaoSat,User,NguoiThan,CanHo)
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -259,3 +259,7 @@ class DichVuViewSet(viewsets.ViewSet,generics.ListAPIView):
         if q:
             queryset = queryset.filter(name__icontains=q)
         return queryset
+class CanHoViewSet(viewsets.ViewSet,generics.ListAPIView):
+    queryset = CanHo.objects.all()
+    serializer_class = serializers.CanHoSerializer
+

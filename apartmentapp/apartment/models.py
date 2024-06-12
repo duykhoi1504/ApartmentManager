@@ -77,6 +77,10 @@ class TuDoDienTu(BaseModel):
     def __str__(self):
         return self.name
 
+    def get_users(self):
+        users = [self.canho.user]
+        members = self.canho.userMembers.all()
+        return list(set(users + list(members)))
 class HangHoa(BaseModel):
     STATUS_CHOICES = (
         ('waiting','Chờ nhận hàng'),
