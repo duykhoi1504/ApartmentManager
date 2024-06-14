@@ -15,7 +15,7 @@ const Home = ({ navigation }) => {
     // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("TheXeNguoiThan")} title="Đăng kí thẻ xe cho người thân" />
     // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Thông báo" />
     const items = [
-      { title: "Home", icon: "account", navigateTo: "Profile" },
+      // { title: "Home", icon: "account", navigateTo: "Profile" },
 
       { title: "Danh sách tủ đồ", icon: "home", navigateTo: "Tudodientu" },
       { title: "Đăng kí dịch vụ", icon: "heart", navigateTo: "Dichvu" },
@@ -23,7 +23,7 @@ const Home = ({ navigation }) => {
       { title: "Phản ánh", icon: "account-multiple", navigateTo: "Phananh" },
       { title: "Làm khảo sát", icon: "school", navigateTo: "SchoolScreen" },
       { title: "Đăng kí thẻ xe cho người thân", icon: "briefcase", navigateTo: "TheXeNguoiThan" },
-      { title: "Thông báo", icon: "earth", navigateTo: "Home" },
+      // { title: "Thông báo", icon: "earth", navigateTo: "Home" },
       { title: "payment", icon: "earth", navigateTo: "PaymentScreen" }
       
     ];
@@ -59,15 +59,18 @@ const styles = StyleSheet.create({
         padding: 20,
       },
     grid: {
-      flexDirection: 'row',
+      flexDirection:'row',
       flexWrap: 'wrap',
-      justifyContent: 'space-around'
+      justifyContent: 'space-between'
     },
     gridItem: {
+      // display:'flex',
       alignItems: 'center',
+      // justifyContent: 'space-between',
       margin: 16
     },
     gridItemText: {
+      
       marginTop: 8,
       fontSize: 16,
       color: '#000'

@@ -15,6 +15,8 @@ const Dichvu = () => {
     const [selectedServices, setSelectedServices] = useState([]);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [hoadonId, setHoadonId] = useState('');
+
     const nav = useNavigation();
 
     const user= useContext(MyUserContext)
@@ -43,6 +45,8 @@ const Dichvu = () => {
     }
 }
   const handleSubmit = async () => {
+    setError("");
+        setSuccessMessage("");
     if (selectedServices.length === 0) {
       setError('Vui lòng điền đầy đủ thông tin và tải lên hình ảnh.');
       return;
@@ -57,7 +61,7 @@ const Dichvu = () => {
     });
 
     console.log('FormData to be sent:', formData);
-
+   
     try {
       let res = await APIs.post(endpoints['themhoadon'], formData, {
         headers: {
@@ -66,7 +70,11 @@ const Dichvu = () => {
         },
       });
       console.log('Success:', res.data);
+
+      setHoadonId(res.data.id)
+      
       setSuccessMessage('DANG KI THANH CONG.');
+    //   nav.navigate("HanghoaDetails",{hanghoaId: c.id})
     } catch (ex) {
     console.error(ex)
       console.error('Error posting:', ex.res?.data || ex.message);
@@ -141,7 +149,9 @@ const Dichvu = () => {
     <Button mode="contained" onPress={handleSubmit}>Xác nhận</Button>
 
     {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-    {successMessage ? <Text style={{ color: 'green' }}>{successMessage}</Text> : null}
+    {successMessage ?<Text style={{ color: 'green' }}>{successMessage}</Text> : null}
+    {successMessage? nav.navigate("Hoadondetails", { hoadonId: hoadonId }):null}
+    
     </View>
     );
     };

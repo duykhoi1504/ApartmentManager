@@ -18,7 +18,7 @@ const TheXeNguoiThan = () => {
 
     React.useEffect(() => {
         loadNguoiThans();
-    }, [nguoiThans]);
+    }, [successMessage]);
 
     const loadNguoiThans = async () => {
         try {
@@ -37,6 +37,8 @@ const TheXeNguoiThan = () => {
         }
     };
     const handleSubmit = async () => {
+        setError("");
+        setSuccessMessage("");
         if (!name || !cccd || !sdt) {
             setError('Vui lòng điền đầy đủ thông tin.');
             return;
@@ -79,16 +81,16 @@ const TheXeNguoiThan = () => {
             { cancelable: false }
         );
     }
-    const renderNguoiThanItem = ({ item }) => (
-        <View style={styles.item}>
-            <Text>Tên: {item.name}</Text>
-            <Text>Số CCCD: {item.cccd}</Text>
-            <Text>Số điện thoại: {item.sdt}</Text>
-            <Text>Trạng thái: {item.status}</Text>
-            <Text>===========================</Text>
+    // const renderNguoiThanItem = ({ item }) => (
+    //     <View style={styles.item}>
+    //         <Text>Tên: {item.name}</Text>
+    //         <Text>Số CCCD: {item.cccd}</Text>
+    //         <Text>Số điện thoại: {item.sdt}</Text>
+    //         <Text>Trạng thái: {item.status}</Text>
+    //         <Text>===========================</Text>
 
-        </View>
-    );
+    //     </View>
+    // );
 
     return (
         <View style={MyStyles.container}>
@@ -117,7 +119,7 @@ const TheXeNguoiThan = () => {
                 {error ? <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text> : null}
                 {successMessage ? <Text style={{ color: 'green', marginTop: 10 }}>{successMessage}</Text> : null}
 
-                <Button onPress={handleSubmit} style={MyStyles.margin} title="Submit" />
+                <Button onPress={handleSubmit}  style={MyStyles.margin} title="Submit" />
             </KeyboardAvoidingView>
             <Text style={MyStyles.subject}>DANH SÁCH NGƯỜI THÂN</Text>
             <ScrollView>

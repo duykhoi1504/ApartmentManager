@@ -17,6 +17,7 @@ const Tudodientu = ({navigation}) => {
     const[q, setQ]=React.useState("");
     const[tudoId,setTudoId]=React.useState("");
     const[page,setPage]=React.useState(1);
+    const[status,setStatus]=React.useState("waiting");
     const user = useContext(MyUserContext)
     const loadTudo= async () => {
         try{
@@ -45,13 +46,25 @@ const Tudodientu = ({navigation}) => {
     }
     const loadHanghoas = async () => {
         if(page > 0){
+
+        //dùng cách này thì không cần dùng cách param ở dưới
         let url=`${
-            ['hanghoas']}?q=${q}&tuDo=${tudoId}&page=${page}`;
+            ['hanghoas']}?q=${q}&tuDo=${tudoId}&status=${status}&page=${page}`;
         try{
             setLoading(true);
-            let res=await APIs.get(url) 
-            // console.error(res.data.results)
-            //co result vi co phan trang
+            let res=await APIs.get(url,{
+                headers: {
+                    'Authorization': `Bearer ${user.access_token}`,
+                },
+                
+                // params: {
+                //     q: q, // Thêm tham số q vào params
+                //     tuDo: tudoId, // Thêm tham số tuDo vào params
+                //     page: page, // Thêm tham số page vào params
+                //     status:status,
+                // },
+            }) 
+
 
             let hanghoadataresults=res.data.results.filter(c =>c.tuDo === tudoId)
             if(page===1){   
@@ -79,7 +92,9 @@ const Tudodientu = ({navigation}) => {
         // if (tudodientus.length > 0) {
         //   setTudoId(tudodientus[0].id);
         // }
-            tudodientus.map(c=>setTudoId(c.id))
+            tudodientus.map(c=>{
+                setTudoId(c.id)
+            })
       }, [tudodientus]);
     React.useEffect(() => {
         loadHanghoas();

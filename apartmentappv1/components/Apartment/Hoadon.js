@@ -36,12 +36,14 @@ const Hoadon = () => {
                 },
                 params: {
                 status: status,
-                user: user.id
+                user_id: user.id
                 
                 }
             });
             // console.log(res.data)
-            setHoadons(res.data.results.filter(item => item.user.id === user.id));
+            // setHoadons(res.data.results.filter(item => item.user.id === user.id));
+            setHoadons(res.data.results);
+
             
             } catch (ex) {
             console.error(ex);
