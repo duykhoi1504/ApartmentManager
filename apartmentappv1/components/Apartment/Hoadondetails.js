@@ -135,14 +135,29 @@ const Hoadondetails = ({ route }) => {
                         }}
                     />
                       <Text>tổng tiền: {hoadon.tongTien} VND</Text>
-                      <Text>Status: {hoadon.status}</Text>
+                      <Text
+                      style={{
+                        backgroundColor:
+                          hoadon.status === 'paid'
+                            ? 'green'
+                            : hoadon.status === 'pending'
+                            ? 'red'
+                            : 'gray',
+                        borderWidth: 2,
+                        borderRadius:60,
+                        padding: 4,
+                      }}>Status: {hoadon.status}
+                      </Text>
                 </Card.Content>
            
                
 
                 <Card.Actions>
                 
-                <Button onPress={()=>nav.navigate("PaymentScreen", { tongTien:hoadon.tongTien })}>ThanhToan</Button>
+                <Button onPress={() => 
+                  nav.navigate("PaymentScreen", { tongTien: hoadon.tongTien })} 
+                  disabled={hoadon.status === 'paid'} >ThanhToan
+                </Button>
                 </Card.Actions>
             </Card>
         ) : (

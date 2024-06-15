@@ -18,3 +18,10 @@ export const isValidUsername = (stringUsername) => {
   //Tên người dùng hợp lệ: john123, Alice4567, user007, helloWorld1234
   //Tên người dùng không hợp lệ: user@name, 12345, abcdefghijklmnopqrst, ThisUsernameIsWayTooLong
 }
+export const isValidConfirmPassword = (stringPassword,stringConfirmPassword) => {
+  return  stringPassword===stringConfirmPassword
+  // return  (/^(?=.*?[0-9])(?=.*?[A-Za-z]).{3,32}$/.test(stringPassword))
+  //chứa chữ số (thường or hoa) , chứa kí tự , chiều dài 3-82 kí tự
+  //Mật khẩu hợp lệ: Abcd1234, P@ssw0rd, MyPassword123
+  //Mật khẩu không hợp lệ: password, 12345678, Abcdefg
+}

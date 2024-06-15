@@ -13,7 +13,8 @@ import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import firestore from '@react-native-firebase/firestore'
 import app from '../../firebaseConfig';
 import { isValidPassword, isValidUsername } from '../../Utils/Validations';
-
+import Background from './Background';
+import Styles from './Styles';
 
 const Login = () =>{
 
@@ -113,54 +114,119 @@ const isValidationOK = () => usernameVerify && passwordVerify
     }
   }
 
-  return(
-    <View style={[MyStyles.container, MyStyles.margin]}>
-      <Text style={MyStyles.subject}>ĐĂNG NHẬP NGƯỜI DÙNG</Text>
-      {fields.map(c => (
-        <React.Fragment key={c.id}>
-        <TextInput  
+//   return(
+//     <View style={[MyStyles.container, MyStyles.margin]}>
+//       <Text style={MyStyles.subject}>ĐĂNG NHẬP NGƯỜI DÙNG</Text>
+//       {fields.map(c => (
+//         <React.Fragment key={c.id}>
+//         <TextInput  
          
-            secureTextEntry={c.secureTextEntry} 
-            value={user[c.name]} 
-            onChangeText={t => {
-              setLoginError('')
-              if (c.name === 'username') {
-                  setErrorUsername(isValidUsername(t)==true ? 'tên đăng nhập hợp lệ' : 'Tên đăng nhập không hợp lệ');
-                  updateState(c.name, t);
-                  setUsernameVerify(isValidUsername(t));
-              } else if (c.name === 'password') {
-                  setErrorPass(isValidPassword(t)==true ? 'mật khẩu hợp lệ' : 'Mật khẩu phải có ít nhất 3 kí tự, ex:P@ssw0rd');
-                  updateState(c.name, t);
-                  setPasswordVerify(isValidPassword(t));
-              }
+//             secureTextEntry={c.secureTextEntry} 
+//             value={user[c.name]} 
+//             onChangeText={t => {
+//               setLoginError('')
+//               if (c.name === 'username') {
+//                   setErrorUsername(isValidUsername(t)==true ? 'tên đăng nhập hợp lệ' : 'Tên đăng nhập không hợp lệ');
+//                   updateState(c.name, t);
+//                   setUsernameVerify(isValidUsername(t));
+//               } else if (c.name === 'password') {
+//                   setErrorPass(isValidPassword(t)==true ? 'mật khẩu hợp lệ' : 'Mật khẩu phải có ít nhất 3 kí tự, ex:P@ssw0rd');
+//                   updateState(c.name, t);
+//                   setPasswordVerify(isValidPassword(t));
+//               }
               
-          }}
-            style={MyStyles.margin} 
-            label={c.label} 
-            left={<TextInput.Icon icon={c.icon}  />} 
-            right={
-              c.name === 'username' && usernameVerify ? (
-                <TextInput.Icon icon="check-circle" color="green" />
-              ) : c.name === 'password' && passwordVerify ? (
-                <TextInput.Icon icon="check-circle" color="green" />
-              ) : null
-            }
-          />
+//           }}
+//             style={MyStyles.margin} 
+//             label={c.label} 
+//             left={<TextInput.Icon icon={c.icon}  />} 
+//             right={
+//               c.name === 'username' && usernameVerify ? (
+//                 <TextInput.Icon icon="check-circle" color="green" />
+//               ) : c.name === 'password' && passwordVerify ? (
+//                 <TextInput.Icon icon="check-circle" color="green" />
+//               ) : null
+//             }
+//           />
         
-        {c.name === 'username' && (
-            <Text style={usernameVerify ? styles.textInput : styles.error}>{erorUsername}</Text>
-          )}
-          {c.name === 'password' && (
-            <Text style={passwordVerify ? styles.textInput : styles.error}>{erorPass}</Text>
-          )}
-        </React.Fragment>
-))}
+//         {c.name === 'username' && (
+//             <Text style={usernameVerify ? styles.textInput : styles.error}>{erorUsername}</Text>
+//           )}
+//           {c.name === 'password' && (
+//             <Text style={passwordVerify ? styles.textInput : styles.error}>{erorPass}</Text>
+//           )}
+//         </React.Fragment>
+// ))}
 
-{loginError ? <Text style={styles.error}>{loginError}</Text> : null}
+// {loginError ? <Text style={styles.error}>{loginError}</Text> : null}
 
-      <Button disabled={isValidationOK()===false} icon="account" loading={loading} mode="contained" onPress={login}>ĐĂNG NHẬP</Button>
-    </View>
-  )
+//       <Button disabled={isValidationOK()===false} icon="account" loading={loading} mode="contained" onPress={login}>ĐĂNG NHẬP</Button>
+//     </View>
+//   )
+// }
+return (
+  <Background>
+     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView>
+      <View style={Styles.container}>
+        <Text style={Styles.textTitle}>Đăng nhập</Text>
+        <View style={[Styles.form, { alignItems: 'center' }, { paddingTop: 100 }]}>
+          <Text style={Styles.textContent}>Welcome Back</Text>
+          <Text style={Styles.content}>Đăng nhập vào tài khoản của bạn</Text>
+          {/* {fields.map(c => <TextInput style={Styles.input} secureTextEntry={c.secureTextEntry} value={user[c.name]} onChangeText={t => updateSate(c.name, t)} key={c.name} label={c.label} right={<TextInput.Icon icon={c.icon} />} />)} */}
+          {fields.map(c => (
+                <React.Fragment key={c.id}>
+                <TextInput  
+                  style={Styles.input}
+                    secureTextEntry={c.secureTextEntry} 
+                    value={user[c.name]} 
+                    onChangeText={t => {
+                      setLoginError('')
+                      if (c.name === 'username') {
+                          setErrorUsername(isValidUsername(t)==true ? 'tên đăng nhập hợp lệ' : 'Tên đăng nhập không hợp lệ');
+                          updateState(c.name, t);
+                          setUsernameVerify(isValidUsername(t));
+                      } else if (c.name === 'password') {
+                          setErrorPass(isValidPassword(t)==true ? 'mật khẩu hợp lệ' : 'Mật khẩu phải có ít nhất 3 kí tự, ex:P@ssw0rd');
+                          updateState(c.name, t);
+                          setPasswordVerify(isValidPassword(t));
+                      }
+                  
+
+                  }}
+                  
+                    label={c.label} 
+                
+                    right={
+                      c.name === 'username' && usernameVerify ? (
+                        <TextInput.Icon icon="check-circle" color="green" />
+                      ) : c.name === 'password' && passwordVerify ? (
+                        <TextInput.Icon icon="check-circle" color="green" />
+                      ) : null
+                    }
+                  />
+                
+                {c.name === 'username' && user.username && user.username.length > 0 && (
+                  <Text style={usernameVerify ? styles.textInput : styles.error}>{erorUsername}</Text>
+                  )}
+                {c.name === 'password' && user.password && user.password.length > 0 && (
+                  <Text style={passwordVerify ? styles.textInput : styles.error}>{erorPass}</Text>
+                  )}
+                </React.Fragment>
+            ))}
+        {loginError ? <Text style={styles.error}>{loginError}</Text> : null}
+          <Button 
+          disabled={isValidationOK()===false} 
+          style={[Styles.button, { marginTop: 20 ,backgroundColor: isValidationOK()===false ? '#B0B0B0' : '#1A4D2E'}]} 
+          icon="account"   labelStyle={{ color: 'white' }} 
+          loading={loading} mode="contained" 
+          onPress={login}>ĐĂNG NHẬP
+          </Button>
+        </View>
+      </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  </Background>
+)
 }
 export default Login
 

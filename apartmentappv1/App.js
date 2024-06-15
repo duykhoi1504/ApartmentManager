@@ -42,8 +42,8 @@ const MyStack = () => {
       <Stack.Screen name="Home" component={Home} options={{title:"Trang chủ"}}/>
       <Stack.Screen name="Tudodientu" component={Tudodientu} options={{title:"Tủ đồ điện tử"}}/>
       <Stack.Screen name="HanghoaDetails" component={HanghoaDetails} options={{title:"Chi tiết hóa đơn"}}/>
-      <Stack.Screen name="Phananh" component={Phananh} options={{title:"Phan anh"}}/>
-      <Stack.Screen name="Themphananh" component={ThemPhanAnh} options={{title:"Them Phan anh"}}/>
+      <Stack.Screen name="Phananh" component={Phananh} options={{title:"Phản ánh"}}/>
+      <Stack.Screen name="Themphananh" component={ThemPhanAnh} options={{title:"Thêm phản ánh"}}/>
       <Stack.Screen name="ChatApp" component={ChatApp} options={{title:"chat"}}/>
       
       <Stack.Screen name="Dichvu" component={Dichvu} options={{title:"Dịch vụ"}}/>
@@ -66,9 +66,9 @@ const MyTab = () => {
   return (
     // <React.Fragment>
     <Tab.Navigator  screenOptions={{headerShown: true,
-      headerMode: 'screen',
-      headerTintColor: 'white',
-      headerStyle: { backgroundColor: 'tomato' },
+      // headerMode: 'screen',
+      // headerTintColor: 'white',
+      // headerStyle: { backgroundColor: 'tomato' },
     }} >
       {user===null?<>
         <Tab.Screen name="Login" component={Login} options={{tabBarIcon: () => <Icon size={30} color="blue" source="login" />}} />

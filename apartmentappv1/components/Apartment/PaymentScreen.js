@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Button, Image, Text, ScrollView } from 'react-native';
+import { View, Button, Image, Text, ScrollView, Alert } from 'react-native';
 import { VietQR } from 'vietqr';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -14,6 +14,7 @@ const PaymentScreen = ({route}) => {
   const [memo, setMemo] = useState('');
   const [listTemplates, setListTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState('');
+
   const user= useContext(MyUserContext)
   const vietQR = new VietQR({
     clientID: 'b11fb921-5977-45b6-950c-36756b355ee3',
@@ -49,6 +50,7 @@ const PaymentScreen = ({route}) => {
     try {
       const clientID = 'b11fb921-5977-45b6-950c-36756b355ee3';
       const apiKey = '1bc63609-d5e3-4015-9149-e4068bc0a055';  
+      //tk ngan hang của chủ chung cư
       const accountThuHuong=7104205296956;
 
       const url = 'https://api.vietqr.io/v2/generate';
@@ -71,7 +73,7 @@ const PaymentScreen = ({route}) => {
    const requestBody = {
         accountNo: accountThuHuong,
         accountName: 'chuyen khoan',
-        acqId: selectedBank.bin,
+        acqId: selectedBank,
         addInfo: memo,
         amount: amount,
         template: 'compact2'
@@ -87,17 +89,40 @@ const PaymentScreen = ({route}) => {
         // Process the successful response
       } else {
         console.error('Failed to generate QR code:', response.data.desc);
+        showErrorAlert(`Đã có lỗi xảy ra khi tạo mã QR: ${response.data.desc}`);
       }
     } catch (error) {
       console.error('Error:', error);
+      showErrorAlert();
     }
 };
   
+const showErrorAlert = (message = 'Đã có lỗi xảy ra. Vui lòng thử lại sau.') => {
+  Alert.alert(
+    'Lỗi',
+    message,
+    [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+  );
+};
+
 const changeValue = (value, callback) => {
   callback(value);
 }
+
+const alert_handleGenerateQRCode = () => {
+  if (!selectedBank || !accountNumber || !memo || !amount) {
+    Alert.alert(
+      'Chưa chọn dịch vụ',
+      'Vui lòng điền đầy đủ thông tin trước khi xác nhận.',
+      [{ text: 'OK', onPress: () => console.log('OK Pressed') }]
+    );
+  } else {
+    handleGenerateQRCode();
+  }
+};
+
   useEffect(() => {
-    console.log("tongtien:",amount)
+    // console.log("tongtien:",amount)
   handlePayment();
 
   }, [selectedBank,accountNumber,amount]);
@@ -111,7 +136,7 @@ const changeValue = (value, callback) => {
         onValueChange={(itemValue) => setSelectedBank(itemValue)}
       >
         {listBank.map((bank) => (
-          <Picker.Item key={bank.id} label={bank.name} value={bank} />
+          <Picker.Item key={bank.id} label={bank.name} value={bank.bin} />
         ))}
       </Picker>
 
@@ -144,7 +169,7 @@ const changeValue = (value, callback) => {
         editable={false}
       />
 
-<Button title="Pay" onPress={() => {
+{/* <Button title="Pay" onPress={() => {
   console.log(selectedBank.name)
   console.log(accountNumber)
   console.log(memo)
@@ -160,10 +185,13 @@ const changeValue = (value, callback) => {
       <Text>{amount}</Text>
    
 
-  <Text>==========================</Text>
+  <Text>==========================</Text> */}
+
+
+
 
 <Text>Generate QR Code Screen</Text>
-      <Button title="Generate QR Code" onPress={handleGenerateQRCode} />
+      <Button title="Generate QR Code" onPress={alert_handleGenerateQRCode} />
       {qrCodeData && qrCodeData.data && (
         <View>
           <Text>QR Code Image:</Text>

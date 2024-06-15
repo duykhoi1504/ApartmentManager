@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, View, Text, ActivityIndicator, RefreshControl } from "react-native";
+import { ScrollView, View, Text, ActivityIndicator, RefreshControl, Alert } from "react-native";
 import MyStyles from "../../styles/MyStyles";
 import { Checkbox, List, Searchbar, Button } from "react-native-paper";
 import { isCloseToBottom } from "../../Utils/Utils";
@@ -45,12 +45,20 @@ const Dichvu = () => {
     }
 }
   const handleSubmit = async () => {
-    setError("");
+        setError("");
         setSuccessMessage("");
-    if (selectedServices.length === 0) {
-      setError('Vui lòng điền đầy đủ thông tin và tải lên hình ảnh.');
-      return;
-    }
+        if (selectedServices.length === 0) {
+        // setError('Vui lòng chọn ít nhất một dịch vụ trước khi xác nhận.');
+
+            Alert.alert(
+                "Chưa chọn dịch vụ",
+                "Vui lòng chọn ít nhất một dịch vụ trước khi xác nhận.",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ]
+            );
+            return;
+        }
 
     const formData = new FormData();
   
