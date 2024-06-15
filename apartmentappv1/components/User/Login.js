@@ -49,6 +49,7 @@ const isValidationOK = () => usernameVerify && passwordVerify
       console.log('User added successfully.');
     } catch (error) {
       console.error('Error adding user to Firestore: ', error);
+
       // Xử lý lỗi nếu cần thiết
     }
   };
@@ -103,6 +104,10 @@ const isValidationOK = () => usernameVerify && passwordVerify
       console.error(ex);
       console.error('Response data:', ex.response?.data);
       setLoginError('Tên đăng nhập hoặc mật khẩu không đúng');
+      setErrorPass('')
+      setErrorUsername('')
+      setUsernameVerify(false)
+      setPasswordVerify(false)
     }finally{
       setLoading(false)
     }
@@ -133,15 +138,13 @@ const isValidationOK = () => usernameVerify && passwordVerify
             style={MyStyles.margin} 
             label={c.label} 
             left={<TextInput.Icon icon={c.icon}  />} 
-            right={c.name === 'username' && usernameVerify ? (
-              <TextInput.Icon icon="check-circle" color="green" />
-            ) : c.name === 'username' ? (
-              <TextInput.Icon icon="close-circle" color="red" />
-            ) : c.name === 'password' && passwordVerify ? (
-              <TextInput.Icon icon="check-circle" color="green" />
-            ) : (
-              <TextInput.Icon icon="close-circle" color="red" />
-            )}
+            right={
+              c.name === 'username' && usernameVerify ? (
+                <TextInput.Icon icon="check-circle" color="green" />
+              ) : c.name === 'password' && passwordVerify ? (
+                <TextInput.Icon icon="check-circle" color="green" />
+              ) : null
+            }
           />
         
         {c.name === 'username' && (

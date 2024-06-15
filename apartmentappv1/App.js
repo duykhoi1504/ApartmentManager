@@ -27,6 +27,8 @@ import Dichvu from './components/Apartment/Dichvu';
 import Hoadon from './components/Apartment/Hoadon';
 import Hoadondetails from './components/Apartment/Hoadondetails';
 import PaymentScreen from './components/Apartment/PaymentScreen';
+import PhieuKhaoSat from './components/Apartment/PhieuKhaoSat';
+import LamKhaoSat from './components/Apartment/LamKhaoSat';
 
 
 
@@ -51,6 +53,8 @@ const MyStack = () => {
       <Stack.Screen name="PaymentScreen" component={PaymentScreen} options={{title:"thanh toan hoa dơn trực tuyến"}}/>
       <Stack.Screen name="Profile" component={Profile} options={{title:"profile"}}/>
       <Stack.Screen name="Users" component={Users} options={{title:"users"}}/>
+      <Stack.Screen name="PhieuKhaoSat" component={PhieuKhaoSat} options={{ title: "Làm khảo sát" }} />
+      <Stack.Screen name="LamKhaoSat" component={LamKhaoSat} options={{ title: "Làm chi tiết khảo sát" }} />
     </Stack.Navigator>
     
   )

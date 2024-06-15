@@ -134,21 +134,21 @@ class TuDoDienTuSerializer(serializers.ModelSerializer):
 class DapAnKhaoSatSerializer(serializers.ModelSerializer):
     class Meta:
         model = DapAnKhaoSat
-        fields = ['id','dapAn']
+        fields = ['id','dapAn', 'cauhoikhaosat_id', 'phieukhaosat_id']
 
 class CauHoiKhaoSatSerializer(serializers.ModelSerializer):
     dap_an_khao_sat = DapAnKhaoSatSerializer(many=True)
 
     class Meta:
         model = CauHoiKhaoSat
-        fields = ['id', 'cauHoi', 'dap_an_khao_sat']
+        fields = ['id', 'cauHoi', 'dap_an_khao_sat', 'phieukhaosat_id']
 
 class PhieuKhaoSatSerializer(serializers.ModelSerializer):
     cau_hoi_khao_sat = CauHoiKhaoSatSerializer(many=True)
 
     class Meta:
         model = PhieuKhaoSat
-        fields = ['tieuDe', 'cau_hoi_khao_sat', 'created_date', 'updated_date', 'active', 'user']
+        fields = ['id','tieuDe', 'cau_hoi_khao_sat', 'created_date', 'updated_date', 'active', 'user']
 
 class NguoiThanSerializer(serializers.ModelSerializer):
     class Meta:

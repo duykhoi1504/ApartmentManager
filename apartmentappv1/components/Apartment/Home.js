@@ -1,130 +1,96 @@
 import MyStyles from "../../styles/MyStyles";
 import React, { useContext } from "react";
-import { Avatar, IconButton } from "react-native-paper";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native";
 import { MyUserContext } from "../../configs/Contexts";
- 
+
 
 const Home = ({ navigation }) => {
-    const user = useContext(MyUserContext);
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Tudodientu")} title="Danh sách tủ đồ" />
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Đăng kí dịch vụ" />
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Hóa đơn" />
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Phananh")} title="Phản ánh" />
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Làm khảo sát" />
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("TheXeNguoiThan")} title="Đăng kí thẻ xe cho người thân" />
-    // <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Thông báo" />
-    const items = [
-      // { title: "Home", icon: "account", navigateTo: "Profile" },
+  const user = useContext(MyUserContext);
+  const items = [
+    { title: "Thông tin cá nhân", icon: require("../../assets/profile.png"), navigateTo: "Profile" },
+    { title: "Danh sách tủ đồ", icon: require("../../assets/boxes.png"), navigateTo: "Tudodientu" },
+    { title: "Đăng kí dịch vụ", icon: require("../../assets/checklist.png"), navigateTo: "Dichvu" },
+    { title: "Hóa đơn", icon: require("../../assets/bill.png"), navigateTo: "Hoadon" },
+    { title: "Phản ánh", icon: require("../../assets/feedback.png"), navigateTo: "Phananh" },
+    { title: "Làm khảo sát", icon: require("../../assets/satisfaction.png"), navigateTo: "PhieuKhaoSat" },
+    { title: "Đăng kí thẻ xe cho người thân", icon: require("../../assets/parking.png"), navigateTo: "TheXeNguoiThan" },
+    { title: "Thông báo", icon: require("../../assets/bell.png"), navigateTo: "Home" }
 
-      { title: "Danh sách tủ đồ", icon: "home", navigateTo: "Tudodientu" },
-      { title: "Đăng kí dịch vụ", icon: "heart", navigateTo: "Dichvu" },
-      { title: "Hóa đơn", icon: "account-group", navigateTo: "Hoadon" },
-      { title: "Phản ánh", icon: "account-multiple", navigateTo: "Phananh" },
-      { title: "Làm khảo sát", icon: "school", navigateTo: "SchoolScreen" },
-      { title: "Đăng kí thẻ xe cho người thân", icon: "briefcase", navigateTo: "TheXeNguoiThan" },
-      // { title: "Thông báo", icon: "earth", navigateTo: "Home" },
-      { title: "payment", icon: "earth", navigateTo: "PaymentScreen" }
-      
-    ];
-    return(
-        <View style={MyStyles.container}>
-      {/* <View style={styles.header}>
-        <Avatar.Image size={50} source={{ uri: user.avatar }} />
-        <IconButton icon="dots-vertical" onPress={() => navigation.navigate("Home")} />
-      </View> */}
-
+  ];
+  return (
+    <View style={styles.container}>
       <View style={styles.header}>
         <Image style={styles.avatar} source={{ uri: user.avatar }} />
         <Text style={styles.name}>{user.first_name} {user.last_name}</Text>
       </View>
-
-      <View style={styles.grid}>
+      <ScrollView style={styles.contentList}>
         {items.map((item, index) => (
-          <TouchableOpacity key={index} style={styles.gridItem} onPress={() => navigation.navigate(item.navigateTo)}>
-            <Avatar.Icon size={70} icon={item.icon} />
-            <Text style={styles.gridItemText}>{item.title}</Text>
+          <TouchableOpacity key={index} style={styles.card} onPress={() => navigation.navigate(item.navigateTo)}>
+            <Image source={item.icon} />
+            <Text style={styles.title}>{item.title}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+      </ScrollView>
     </View>
-    )
+  )
 };
-export default Home   
+export default Home
 
 const styles = StyleSheet.create({
-    header: {
-        backgroundColor:"#66CCFF",
-        alignItems: "center",
-        padding: 20,
-      },
-    grid: {
-      flexDirection:'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between'
+  container: {
+    flex: 1,
+    backgroundColor: '#E8DFCA',
+  },
+  contentList: {
+    flex: 1,
+  },
+  card: {
+    shadowColor: '#00000021',
+    shadowOffset: {
+      width: 0,
+      height: 6,
     },
-    gridItem: {
-      // display:'flex',
-      alignItems: 'center',
-      // justifyContent: 'space-between',
-      margin: 16
-    },
-    gridItemText: {
-      
-      marginTop: 8,
-      fontSize: 16,
-      color: '#000'
-    },
-    avatar: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        marginBottom: 10,
-      },
-      name: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "#fff",
-      },
-  });
-
-
-  
-// import MyStyles from "../../styles/MyStyles";
-
-// import React, { useContext, useState } from "react";
-// import { Chip, List,Menu,Searchbar,Avatar,Card, IconButton, Badge, Switch, TextInput  } from "react-native-paper";
-// import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
-// import moment from "moment";
-// import { MyUserContext } from "../../configs/Contexts";
-
-// const Home = ({navigation}) => {
-// const user= useContext(MyUserContext)
-
-//     return(
-         
-//         <View style={MyStyles.container}>
-         
-//             <View leadingIcon='text-long'>
-//                 {/* <Text>notifications_ICON</Text>
-//             <Badge> 3</Badge> */}
-//             </View>
-          
-//              {/* <Avatar.Image size={90} source={require('../../assets/house1.jpg')} /> */}
-//              <Card.Title style={MyStyles.banner}
-//                 title={user.username}
-//                 subtitle="thuộc căn hộ"
-//                 left={(props) => <Avatar.Image size={50}  source={{ uri: user.avatar}} />}
-//                 right={(props) => <IconButton {...props} icon="dots-vertical" onPress={() =>{navigation.navigate("Home")}} />}
-//   />            
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Tudodientu")} title="Danh sách tủ đồ" />
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Đăng kí dịch vụ" />
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Hóa đơn" />
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Phananh")} title="Phản ánh" />
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Làm khảo sát" />
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("TheXeNguoiThan")} title="Đăng kí thẻ xe cho người thân" />
-//             <Menu.Item leadingIcon="text-long" onPress={() => navigation.navigate("Home")} title="Thông báo" />
-//         </View>
-//     )
-// };
-// export default Home
+    shadowOpacity: 0.37,
+    shadowRadius: 7.49,
+    elevation: 12,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+    backgroundColor: 'white',
+    padding: 10,
+    flexDirection: 'row',
+    borderRadius: 10,
+  },
+  title: {
+    marginLeft: 20,
+    marginTop: 10,
+    fontSize: 18,
+    flex: 1,
+    alignSelf: 'center',
+    color: '#1A4D2E',
+    fontWeight: 'bold',
+  },
+  header: {
+    backgroundColor: "#1A4D2E",
+    alignItems: "center",
+    padding: 20,
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    marginTop: -35,
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  name: {
+    marginTop: 5,
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#F5EFE6",
+  },
+});
