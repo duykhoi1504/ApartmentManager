@@ -35,18 +35,16 @@ const PhieuKhaoSat = () => {
     }, []);
 
     return (
-
         <View style={MyStyles.container}>
             <Text style={MyStyles.subject}>DANH SÁCH PHIẾU KHẢO SÁT</Text>
-
             <ScrollView>
                 <RefreshControl onRefresh={() => loadKhaosats()} />
                 {loading && <ActivityIndicator />}
-                {khaosats.map(c => <Card key={c.id} style={MyStyles.margin} >
+                {khaosats.map(c => <Card key={c.id} style={[MyStyles.margin, { backgroundColor: '#F5EFE6' }]} >
                     <Card.Content style={styles.cardContent}>
                         <RenderHTML source={{ html: c.tieuDe }} contentWidth={300} baseStyle={styles.title} />
                     </Card.Content>
-                    <Button mode="contained" onPress={() => { nav.navigate('LamKhaoSat', { phieukhaosatId: c.id }) }}>Trả lời</Button>
+                    <Button style={MyStyles.button} mode="contained" onPress={() => { nav.navigate('LamKhaoSat', { phieukhaosatId: c.id }) }}>Trả lời</Button>
                     <Text style={styles.dateText}>{moment(c.created_date).calendar()}</Text>
                 </Card>
                 )}

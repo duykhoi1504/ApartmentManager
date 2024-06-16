@@ -13,7 +13,7 @@ export default StyleSheet.create({
     },
     textTitle: {
         color: 'white',
-        fontSize: 64,
+        fontSize: 50,
         fontWeight: 'bold',
         marginVertical: 10,
     },
@@ -30,9 +30,9 @@ export default StyleSheet.create({
     },
     content: {
         color: '#4F6F52',
-        fontSize: 19,
+        fontSize: 15,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 5,
     },
     input: {
         paddingHorizontal: 10,

@@ -19,7 +19,8 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const nav = useNavigation();
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // const [errorUsername,setErrorUsername]=useState('')
   // const [errorPassword,setErrorPassword]=useState('')
   // const [errorConfirmPassword,setErrorConfirmPassword]=useState('')
@@ -92,10 +93,10 @@ const Register = () => {
   return (
     <Background>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView>
+        <ScrollView >
         <View style={Styles.container}>
           <Text style={Styles.textTitle}>Đăng kí</Text>
-          <ScrollView style={[Styles.form, { paddingTop: 50 }]}>
+          <View style={[Styles.form, { paddingTop: 50 }]}>
             <TextInput
               value={username}
               onChangeText={ t =>{
@@ -138,11 +139,11 @@ const Register = () => {
                 }}
               style={Styles.input}
               label="Mật khẩu"
-              secureTextEntry
-              right={password.length<1? <TextInput.Icon icon="eye" /> : passwordVerify ? (
-                <TextInput.Icon icon="check-circle" color="green" />
+              secureTextEntry={!showPassword} 
+              right={password.length<1? <TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={() => setShowPassword(!showPassword)}/> : passwordVerify ? (
+                <TextInput.Icon icon={showPassword ? "eye-off" : "check-circle"} onPress={() => setShowPassword(!showPassword)} color="green" />
               ):(
-                <TextInput.Icon icon="close-circle" color="red" />
+                <TextInput.Icon icon={showPassword ? "eye-off" : "close-circle"} onPress={() => setShowPassword(!showPassword)} color="red" />
               )}
             />
             <TextInput
@@ -153,15 +154,15 @@ const Register = () => {
               }}
               style={Styles.input}
               label="Xác nhận mật khẩu"
-              secureTextEntry
-              right={confirmPassword.length<1? <TextInput.Icon icon="eye" /> : confirmPasswordVerify ? (
-                <TextInput.Icon icon="check-circle" color="green" />
+              secureTextEntry={!showConfirmPassword} 
+              right={confirmPassword.length<1? <TextInput.Icon icon={showConfirmPassword ? "eye-off" : "eye"} onPress={() => setShowConfirmPassword(!showPassword)}/> : confirmPasswordVerify ? (
+                <TextInput.Icon icon={showConfirmPassword ? "eye-off" : "check-circle"} onPress={() => setShowConfirmPassword(!showConfirmPassword)} color="green" />
               ):(
-                <TextInput.Icon icon="close-circle" color="red" />
+                <TextInput.Icon icon={showConfirmPassword ? "eye-off" : "close-circle"} onPress={() => setShowConfirmPassword(!showConfirmPassword)} color="red" />
               )}
             />
             <TouchableRipple onPress={picker}>
-              <Text style={[Styles.content, { alignSelf: 'center', paddingTop: 10 }]} icon="image">Chọn ảnh đại diện</Text>
+              <Text style={[Styles.content, { alignSelf: 'center', paddingTop: 5 }]} icon="image">Chọn ảnh đại diện</Text>
             </TouchableRipple>
             {avatar && <Image style={[MyStyles.avatar, { alignSelf: 'center' }]} source={{ uri: avatar.uri }} />}
             <HelperText type="error" visible={err}>
@@ -174,7 +175,7 @@ const Register = () => {
             style={[Styles.button,{backgroundColor: isValidationOK()===false ? '#B0B0B0' : '#1A4D2E'}]} mode="contained" icon="account">
               ĐĂNG KÍ
             </Button>
-          </ScrollView>
+          </View>
         </View>
         </ScrollView> 
       </KeyboardAvoidingView>

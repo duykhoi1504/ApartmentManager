@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, View, Text, ActivityIndicator, RefreshControl, Alert } from "react-native";
+import { ScrollView, View, Text, ActivityIndicator, RefreshControl, StyleSheet } from "react-native";
 import MyStyles from "../../styles/MyStyles";
 import { Checkbox, List, Searchbar, Button } from "react-native-paper";
 import { isCloseToBottom } from "../../Utils/Utils";
@@ -15,80 +15,64 @@ const Dichvu = () => {
     const [selectedServices, setSelectedServices] = useState([]);
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [hoadonId, setHoadonId] = useState('');
-
     const nav = useNavigation();
 
-    const user= useContext(MyUserContext)
-    const loadDichVus= async () => {
-        if(page > 0){
+    const user = useContext(MyUserContext)
+    const loadDichVus = async () => {
+        if (page > 0) {
             let url = `${endpoints['dichvus']}?q=${q}&page=${page}`
-            try{
+            try {
                 setLoading(true)
-                let res=await APIs.get(url) 
+                let res = await APIs.get(url)
                 // let filteredResults = res.data.results.filter(item => item.name.toLowerCase().includes(q.toLowerCase()));
                 // console.log(filteredResults)
                 //co result vi co phan trang
-                if(page===1)
+                if (page === 1)
                     setDichvus(res.data.results);
-                else if(page > 1)
+                else if (page > 1)
                     setDichvus(current => {
                         return [...current, ...res.data.results]
                     });
-                if(res.data.next===null)
+                if (res.data.next === null)
                     setPage(0);
-            }catch(ex){
+            } catch (ex) {
                 console.error(ex);
-            }finally{
+            } finally {
                 setLoading(false);
             }
+        }
     }
-}
-  const handleSubmit = async () => {
-        setError("");
-        setSuccessMessage("");
+    const handleSubmit = async () => {
         if (selectedServices.length === 0) {
-        // setError('Vui lòng chọn ít nhất một dịch vụ trước khi xác nhận.');
-
-            Alert.alert(
-                "Chưa chọn dịch vụ",
-                "Vui lòng chọn ít nhất một dịch vụ trước khi xác nhận.",
-                [
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
-                ]
-            );
+            setError('Vui lòng điền đầy đủ thông tin và tải lên hình ảnh.');
             return;
         }
 
-    const formData = new FormData();
-  
-    formData.append('thongTinHD', "noiDung");
+        const formData = new FormData();
 
-    selectedServices.forEach(service => {
-        formData.append('dichVu', service.id); // Gửi từng ID dịch vụ riêng lẻ
-    });
+        formData.append('thongTinHD', "noiDung");
 
-    console.log('FormData to be sent:', formData);
-   
-    try {
-      let res = await APIs.post(endpoints['themhoadon'], formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${user.access_token}`,
-        },
-      });
-      console.log('Success:', res.data);
+        selectedServices.forEach(service => {
+            formData.append('dichVu', service.id); // Gửi từng ID dịch vụ riêng lẻ
+        });
 
-      setHoadonId(res.data.id)
-      
-      setSuccessMessage('DANG KI THANH CONG.');
-    //   nav.navigate("HanghoaDetails",{hanghoaId: c.id})
-    } catch (ex) {
-    console.error(ex)
-      console.error('Error posting:', ex.res?.data || ex.message);
-      setError('Có lỗi xảy ra khi DK DV.');
-    }
-  };
+        console.log('FormData to be sent:', formData);
+
+        try {
+            let res = await APIs.post(endpoints['themhoadon'], formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${user.access_token}`,
+                },
+            });
+            console.log('Success:', res.data);
+            setSuccessMessage('DANG KI THANH CONG.');
+        } catch (ex) {
+            console.error(ex)
+            console.error('Error posting:', ex.res?.data || ex.message);
+            setError('Có lỗi xảy ra khi DK DV.');
+        }
+    };
 
 
     React.useEffect(() => {
@@ -125,72 +109,49 @@ const Dichvu = () => {
     };
 
 
-        return (
-            <View style={MyStyles.container}>
-                <Text style={MyStyles.subject}>DANH SÁCH DỊCH VỤ TRONG CHUNG CƯ</Text>
-                <View>
-                    <Searchbar placeholder="Tìm dịch vụ..." value={q} onChangeText={t => search(t,setQ)} />
-                </View>
-                <ScrollView onScroll={loadMore}>
-                    <RefreshControl refreshing={loading} onRefresh={() => loadDichVus()} />
-                    {loading && <ActivityIndicator />}
+    return (
+        <View style={MyStyles.container}>
+            <Text style={MyStyles.subject}>DANH SÁCH DỊCH VỤ TRONG CHUNG CƯ</Text>
+            <View>
+                <Searchbar style={{ backgroundColor: '#F5EFE6' }} placeholder="Tìm dịch vụ..." value={q} onChangeText={t => search(t,setQ)} />
+            </View>
+            <ScrollView onScroll={loadMore}>
+                <RefreshControl refreshing={loading} onRefresh={() => loadDichVus()} />
+                {loading && <ActivityIndicator />}
 
-    {dichvus.map((c, index) => (
-        <List.Item
-            style={MyStyles.margin}
-            key={c.id}
-            title={
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Checkbox
-                        status={c.checked ? 'checked' : 'unchecked'}
-                        onPress={() => checked(index)}
+                {dichvus.map((c, index) => (
+                    <List.Item
+                        style={styles.listItem}
+                        key={c.id}
+                        title={
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Checkbox
+                                    status={c.checked ? 'checked' : 'unchecked'}
+                                    onPress={() => checked(index)}
+                                    color="#1A4D2E"
+                                />
+                                <Text>{c.name}</Text>
+                            </View>
+                        }
+                        description={`Mô tả: ${c.thongTinDV.replace(/<\/?p>/g, '')}\nGiá dịch vụ: ${c.giaDV} VND`}
                     />
-                    <Text>{c.name}</Text>
-                </View>
-            }
-            description={`Mô tả: ${c.thongTinDV.replace(/<\/?p>/g, '')}\nGiá dịch vụ: ${c.giaDV} VND`}
-        />
-    ))}
+                ))}
 
-    {loading && page > 1 && <ActivityIndicator />}
-    </ScrollView>
-    <Button mode="contained" onPress={handleSubmit}>Xác nhận</Button>
+                {loading && page > 1 && <ActivityIndicator />}
+            </ScrollView>
+            <Button style={MyStyles.button} mode="contained" onPress={handleSubmit}>Xác nhận</Button>
 
-    {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-    {successMessage ?<Text style={{ color: 'green' }}>{successMessage}</Text> : null}
-    {successMessage? nav.navigate("Hoadondetails", { hoadonId: hoadonId }):null}
-    
-    </View>
+            {error ? <Text style={MyStyles.errorText}>{error}</Text> : null}
+            {successMessage ? <Text style={MyStyles.successText}>{successMessage}</Text> : null}
+        </View>
     );
-    };
-
-//     return (
-//         <View style={MyStyles.container}>
-//             <Text style={MyStyles.subject}>DANH SÁCH DỊCH VỤ TRONG CHUNG CƯ</Text>
-//             <View>
-//                 <Searchbar placeholder="Tìm dịch vụ..." value={q} onChangeText={t => search(t, setQ)} />
-//             </View>
-//             <ScrollView onScroll={loadMore}>
-//                 <RefreshControl onRefresh={() => loadDichVus()} />
-//                 {loading && <ActivityIndicator />}
-
-                
-//                 {dichvus.map((c, index) => <List.Item style={MyStyles.margin} key={c.id} title={
-//                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-//                         <Checkbox
-//                             status={c.checked ? 'checked' : 'unchecked'}
-//                             onPress={() => checked(index)}
-//                         />
-//                         <Text>{c.name}</Text>
-//                     </View>
-//                 } description={`Mô tả: ${c.thongTinDV.replace(/<\/?p>/g, '')}\nGiá dịch vụ: ${c.giaDV} VND`}
-//                 />)}
-//                 {loading && page > 1 && <ActivityIndicator />}
-//             </ScrollView>
-//             <Button mode="contained" onPress={() => handleSubmit()}>Xác nhận</Button>
-            
-//             {/* <Button mode="contained" onPress={() => nav.navigate('Hoadon',{selectedServices})}>Xác nhận</Button> */}
-//         </View>
-//     )
-// };
+};
 export default Dichvu
+
+const styles = StyleSheet.create({
+    listItem: {
+        marginVertical: 5,
+        backgroundColor: '#FEFAF6',
+        borderRadius: 5,
+    },
+});

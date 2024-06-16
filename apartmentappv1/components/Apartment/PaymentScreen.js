@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Button, Image, Text, ScrollView, Alert } from 'react-native';
+import { View, Button, Image, Text, ScrollView, Alert, StyleSheet } from 'react-native';
 import { VietQR } from 'vietqr';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
@@ -127,85 +127,94 @@ const alert_handleGenerateQRCode = () => {
 
   }, [selectedBank,accountNumber,amount]);
   return (
-    <View>
-      <ScrollView>
-      {/* <Button title="Pay" onPress={handlePayment} /> */}
-      <Text>Chọn ngân hàng</Text>
-      <Picker
-        selectedValue={selectedBank}
-        onValueChange={(itemValue) => setSelectedBank(itemValue)}
-      >
-        {listBank.map((bank) => (
-          <Picker.Item key={bank.id} label={bank.name} value={bank.bin} />
-        ))}
-      </Picker>
+    <View style={styles.container}>
+        <ScrollView>
+            <Text style={styles.label}>Chọn ngân hàng</Text>
+            <Picker
+                selectedValue={selectedBank}
+                onValueChange={(itemValue) => setSelectedBank(itemValue)}
+                style={styles.picker}
+            >
+                {listBank.map((bank) => (
+                    <Picker.Item key={bank.id} label={bank.name} value={bank.bin} />
+                ))}
+            </Picker>
 
-      
+            <Text style={styles.label}>Số tài khoản</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Số tài khoản"
+                value={accountNumber}
+                onChangeText={setAccountNumber}
+                keyboardType="numeric"
+            />
+            <Text style={styles.label}>Nhập nội dung</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Nhập nội dung"
+                value={memo}
+                onChangeText={setMemo}
+                keyboardType="text"
+            />
+            <Text style={styles.label}>Số tiền</Text>
+            <TextInput
+                style={styles.input}
+                placeholder={`${amount}`}
+                value={amount}
+                keyboardType="numeric"
+                editable={false}
+            />
 
-
-      <Text >Số tài khoản</Text>
-      <TextInput   
-       
-        placeholder="Số tài khoản"
-        value={accountNumber}
-        onChangeText={setAccountNumber}
-        keyboardType="numeric"
-      />
-      <Text >Nhập nội dung</Text>
-      <TextInput 
-       
-        placeholder="Nhập nội dung"
-        value={memo}
-        onChangeText={setMemo}
-        keyboardType="text"
-      />
-      <Text >Số tiền</Text>
-      <TextInput 
-       
-       placeholder={`${amount}`}
-        value={amount}
-        // onChangeText={value=>{setAmount(value)}}
-        keyboardType="numeric"
-        editable={false}
-      />
-
-{/* <Button title="Pay" onPress={() => {
-  console.log(selectedBank.name)
-  console.log(accountNumber)
-  console.log(memo)
-  console.log(amount)
-
-}
-  } />
-
-   <Text>==========================</Text>
-      <Text>{selectedBank.name}</Text>
-      <Text>{accountNumber}</Text>
-      <Text>{memo}</Text>
-      <Text>{amount}</Text>
-   
-
-  <Text>==========================</Text> */}
-
-
-
-
-<Text>Generate QR Code Screen</Text>
-      <Button title="Generate QR Code" onPress={alert_handleGenerateQRCode} />
-      {qrCodeData && qrCodeData.data && (
-        <View>
-          <Text>QR Code Image:</Text>
-          <Image
-            source={{ uri: qrCodeData.data.qrDataURL }}
-            style={{ width: 200, height: 200 }}
-          />
-        </View>
-      )}
-
-
-</ScrollView>
+            <Text style={styles.generateText}>Generate QR Code Screen</Text>
+            <Button title="Generate QR Code" onPress={alert_handleGenerateQRCode} color="#4F6F52" />
+            {qrCodeData && qrCodeData.data && (
+                <View style={styles.qrContainer}>
+                    <Text style={styles.label}>QR Code Image:</Text>
+                    <Image
+                        source={{ uri: qrCodeData.data.qrDataURL }}
+                        style={styles.qrImage}
+                    />
+                </View>
+            )}
+        </ScrollView>
     </View>
-  );
+);
 };
+
+const styles = StyleSheet.create({
+container: {
+    flex: 1,
+    backgroundColor: '#F5EFE6',
+    padding: 20,
+},
+label: {
+    fontSize: 16,
+    color: '#1A4D2E',
+    fontWeight: 'bold',
+    marginBottom: 10,
+},
+picker: {
+    backgroundColor: '#E8DFCA',
+    marginBottom: 20,
+},
+input: {
+    backgroundColor: '#E8DFCA',
+    marginBottom: 20,
+},
+qrContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+},
+qrImage: {
+    width: 200,
+    height: 200,
+},
+generateText: {
+    fontSize: 16,
+    color: '#4F6F52',
+    fontWeight: 'bold',
+    marginVertical: 10,
+}
+});
 
 export default PaymentScreen;

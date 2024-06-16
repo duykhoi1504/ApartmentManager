@@ -112,11 +112,9 @@ const Hoadondetails = ({ route }) => {
 
 
    return (
-    <View >
-            
+    <View style={styles.container}>
         {hoadon ? (
-        
-            <Card>
+            <Card style={styles.card}>
                 <Card.Title
                     title={hoadon.name}
                     subtitle={hoadon.user.username}
@@ -134,61 +132,129 @@ const Hoadondetails = ({ route }) => {
                             html: hoadon.dichVu_details.map((dv) => dv.name).join(', '),
                         }}
                     />
-                      <Text>tổng tiền: {hoadon.tongTien} VND</Text>
-                      <Text
-                      style={{
-                        backgroundColor:
-                          hoadon.status === 'paid'
-                            ? 'green'
-                            : hoadon.status === 'pending'
-                            ? 'red'
-                            : 'gray',
-                        borderWidth: 2,
-                        borderRadius:60,
-                        padding: 4,
-                      }}>Status: {hoadon.status}
-                      </Text>
+                    <Text style={styles.totalAmount}>Tổng tiền: {hoadon.tongTien} VND</Text>
+                    <Text
+                        style={[
+                            styles.status,
+                            hoadon.status === 'paid' && styles.paid,
+                            hoadon.status === 'pending' && styles.pending,
+                            hoadon.status !== 'paid' && hoadon.status !== 'pending' && styles.other
+                        ]}
+                    >
+                        Status: {hoadon.status}
+                    </Text>
                 </Card.Content>
-           
-               
-
                 <Card.Actions>
-                
-                <Button onPress={() => 
-                  nav.navigate("PaymentScreen", { tongTien: hoadon.tongTien })} 
-                  disabled={hoadon.status === 'paid'} >ThanhToan
-                </Button>
+                    <Button
+                        onPress={() => nav.navigate("PaymentScreen", { tongTien: hoadon.tongTien })}
+                        disabled={hoadon.status === 'paid'}
+                        mode="contained"
+                        style={styles.payButton}
+                    >
+                        Thanh Toán
+                    </Button>
                 </Card.Actions>
             </Card>
         ) : (
-            <ActivityIndicator style={styles.loading} />
+            <ActivityIndicator style={styles.loading} color="#1A4D2E" />
         )}
-
-        
-        <Text>=======================</Text>
-         <Text>Up ảnh thanh toán</Text>
-         <Button onPress={handleChoosePhoto}>up ảnh</Button>
+        <Text style={styles.divider}>--------------------------------------------</Text>
+        <Text style={styles.uploadText}>Up ảnh thanh toán(thanh toán ở trên rồi thực hiện up ảnh)</Text>
+        <Button onPress={handleChoosePhoto} mode="contained" style={styles.uploadButton}>Up ảnh</Button>
         {image && (
-        <Image
-          source={{ uri: image }}
-          style={{ width: 100, height: 100, marginTop: 10 }}
-        />
-      )}
-      {error ? <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text> : null}
-      {successMessage ? <Text style={{ color: 'green', marginTop: 10 }}>{successMessage}</Text> : null}
-      <Button onPress={handleSubmit} >submit</Button>
-       
+            <Image
+                source={{ uri: image }}
+                style={styles.uploadedImage}
+            />
+        )}
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {successMessage ? <Text style={styles.success}>{successMessage}</Text> : null}
+        <Button onPress={handleSubmit} mode="contained" style={styles.submitButton}>Submit</Button>
     </View>
 );
 }
+
 export default Hoadondetails;
+
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loading: {
-        marginTop: 20,
-    },
+container: {
+    flex: 1,
+    padding: 20,
+  
+ 
+},
+card: {
+    marginBottom: 20,
+    backgroundColor: '#F5EFE6',
+},
+loading: {
+    marginTop: 20,
+},
+divider: {
+    marginVertical: 20,
+    textAlign: 'center',
+    color: '#4F6F52',
+    fontWeight: 'bold',
+},
+uploadText: {
+    marginBottom: 10,
+    fontSize: 16,
+    color: '#1A4D2E',
+    fontWeight: 'bold',
+},
+uploadButton: {
+    backgroundColor: '#4F6F52',
+    color: '#FFF',
+},
+uploadedImage: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    alignSelf: 'center',
+},
+error: {
+    color: 'red',
+    marginTop: 10,
+    textAlign: 'center',
+},
+success: {
+    color: 'green',
+    marginTop: 10,
+    textAlign: 'center',
+},
+submitButton: {
+    backgroundColor: '#1A4D2E',
+    color: '#FFF',
+    marginTop: 10,
+},
+totalAmount: {
+    fontSize: 18,
+    color: '#1A4D2E',
+    fontWeight: 'bold',
+    marginVertical: 10,
+},
+status: {
+    fontSize: 16,
+    color: '#FFF',
+    padding: 10,
+    borderRadius: 20,
+    textAlign: 'center',
+    marginVertical: 10,
+},
+paid: {
+  backgroundColor: '#4F6F52',
+  color: 'white',
+  fontWeight: 'bold',
+},
+pending: {
+  backgroundColor: '#E8DFCA',
+  color: 'black',
+  fontWeight: 'bold',
+},
+other: {
+    backgroundColor: 'gray',
+},
+payButton: {
+    backgroundColor: '#4F6F52',
+},
 });

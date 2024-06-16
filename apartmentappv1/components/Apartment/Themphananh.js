@@ -1,26 +1,17 @@
 import React, { useState, useContext } from 'react';
-import { View, TextInput, Button, Text, Image, Alert } from 'react-native';
-
+import { View, TextInput, Button, Text, Image, Alert, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 import APIs, { endpoints } from '../../configs/APIs';
 import { MyUserContext } from '../../configs/Contexts';
-// import { uploadToCloudinary } from '../../configs/cloudinaryService';
-
-
-
+import MyStyles from '../../styles/MyStyles';
 
 const Themphananh = () => {
-  const user= useContext(MyUserContext)
+  const user = useContext(MyUserContext);
   const [name, setName] = useState('');
   const [noiDung, setNoiDung] = useState('');
-  const [imageUri, setImageUri] = useState(null);
   const [image, setImage] = useState(null);
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); 
-
-
-
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChoosePhoto = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -31,7 +22,6 @@ const Themphananh = () => {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
-      
         quality: 1,
       });
       if (!result.canceled) {
@@ -46,7 +36,6 @@ const Themphananh = () => {
       return;
     }
 
-    // Hiển thị cảnh báo trước khi đăng bài
     Alert.alert(
       'Xác nhận',
       'Bạn có chắc chắn muốn đăng bài này không?',
@@ -58,9 +47,6 @@ const Themphananh = () => {
         {
           text: 'Đồng ý',
           onPress: async () => {
-            // const cloudinaryURL = await uploadToCloudinary(image);
-          
-           
             const formData = new FormData();
             formData.append('name', name);
             formData.append('noiDung', noiDung);
@@ -90,65 +76,62 @@ const Themphananh = () => {
     );
   };
 
-//   const handleSubmit = async () => {
-//     if (!name || !noiDung || !image) {
-//       setError('Vui lòng điền đầy đủ thông tin và tải lên hình ảnh.');
-//       return;
-//     }
-
-//     const formData = new FormData();
-//     formData.append('name', name);
-//     formData.append('noiDung', noiDung);
-//     formData.append('image', {
-//       uri: image,
-//       type: 'image/jpeg',
-//       name: 'photo.jpg',
-//     });
-
-//     try {
-//       let res = await APIs.post(endpoints['vietphananh'], formData, {
-//         headers: {
-//           'Content-Type': 'multipart/form-data',
-//           'Authorization': `Bearer ${user.access_token}`,
-//         },
-//       });
-//       console.log('Success:', res.data);
-//       setSuccessMessage('Bài viết đã được đăng thành công.');
-//     } catch (ex) {
-//     //   console.error('Error posting:', error);
-//       console.error('Error posting:', ex.res?.data || ex.message);
-//       setError('Có lỗi xảy ra khi đăng bài viết.');
-//     }
-//   };
-
   return (
-    <View>
-        <Text>{user.access_token}</Text>
+    <View style={styles.container}>
+      <Text style={MyStyles.label}>Tiêu đề phản ánh</Text>
       <TextInput
         placeholder="Name"
         value={name}
         onChangeText={setName}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
+        style={MyStyles.input}
       />
+      <Text style={MyStyles.label}>Nội dung phản ánh</Text>
       <TextInput
         placeholder="Nội Dung"
         value={noiDung}
         onChangeText={setNoiDung}
-        style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
+        style={MyStyles.input}
       />
-      <Button title="Choose Photo" onPress={handleChoosePhoto} />
+      <View>
+        <Button title="Choose Photo" onPress={handleChoosePhoto} color="#4F6F52" />
+      </View>
       {image && (
         <Image
           source={{ uri: image }}
-          style={{ width: 100, height: 100, marginTop: 10 }}
+          style={styles.image}
         />
       )}
-
-      {error ? <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text> : null}
-      {successMessage ? <Text style={{ color: 'green', marginTop: 10 }}>{successMessage}</Text> : null}
-      <Button title="Submit" onPress={handleSubmit} />
+      {error ? <Text style={MyStyles.errorText}>{error}</Text> : null}
+      {successMessage ? <Text style={MyStyles.successText}>{successMessage}</Text> : null}
+      <View style={{marginTop:15}}>
+        <Button title="Submit" onPress={handleSubmit} color="#1A4D2E" />
+      </View>
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#F5EFE6',
+  },
+  input: {
+    height: 40,
+    borderColor: '#1A4D2E',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    backgroundColor: '#E8DFCA',
+  },
+
+  image: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    borderRadius: 10,
+  },
+ 
+});
 export default Themphananh;

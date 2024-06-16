@@ -3,7 +3,7 @@ import MyStyles from "../../styles/MyStyles";
 
 import React, { useContext } from "react";
 import { Chip, List,Searchbar } from "react-native-paper";
-import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
+import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity, StyleSheet } from "react-native";
 import moment from "moment";
 import { isCloseToBottom } from "../../Utils/Utils";
 import APIs, { endpoints } from "../../configs/APIs";
@@ -119,17 +119,17 @@ const Tudodientu = ({navigation}) => {
  
 
     return(
-    <View style={MyStyles.container}>
+    <View style={styles.container}>
         <Text style={MyStyles.subject}>Danh Muc Tu Do</Text>
         <View style={ MyStyles.row}>
             {/* <Chip mode={!tudoId?"outlined":"flat"} style={MyStyles.margin} onPress={() => search("",setTudoId)} icon="shape-outline">ALL</Chip> */}
             {tudodientus === null?<ActivityIndicator />:<>
-                {tudodientus.map(c => <Chip mode={tudoId===c.id?"outlined":"flat"} onPress={() => search(c.id,setTudoId)} style={MyStyles.margin} key={c.id} icon="text-long">tủ đồ của bạn: {c.name}</Chip>)}</>}
+                {tudodientus.map(c => <Chip mode={tudoId===c.id?"outlined":"flat"} onPress={() => search(c.id,setTudoId)} style={[MyStyles.margin,{backgroundColor:'#E8DFCA'}]} key={c.id} icon="text-long">tủ đồ của bạn: {c.name}</Chip>)}</>}
         </View>
 
         <View>
         {/* <FlatList data={hanghoas} renderItem={(c) => <Text key={c.item.id}>san phan:{c.item.name}</Text>} /> */}
-        <Searchbar placeholder="tìm khóa học..." value={q} onChangeText={t => search(t,setQ)}/>
+        <Searchbar style={{backgroundColor: '#E8DFCA' }}  placeholder="tìm hàng hóa..." value={q} onChangeText={t => search(t,setQ)}/>
         </View>
 
         <ScrollView onScroll={loadMore}>
@@ -158,3 +158,19 @@ const Tudodientu = ({navigation}) => {
     )
 }
 export default Tudodientu    
+const styles = StyleSheet.create({
+    container: {
+      backgroundColor: '#F5EFE6', // Light background color for the container
+      padding: 1,
+      flex: 1,
+      justifyContent: 'center',
+    },
+    selectedButton: {
+        backgroundColor: '#AFD198',
+    },
+    buttonText: {
+        color: '#1A4D2E',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+})

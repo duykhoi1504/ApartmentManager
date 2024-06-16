@@ -3,7 +3,7 @@ import MyStyles from "../../styles/MyStyles";
 
 import React, { useState } from "react";
 import { Avatar, Button, Card } from "react-native-paper";
-import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity } from "react-native";
+import { View,Text,ActivityIndicator,Image, ScrollView, RefreshControl,TouchableOpacity, StyleSheet } from "react-native";
 import moment from "moment";
 import { isCloseToBottom } from "../../Utils/Utils";
 import RenderHTML from "react-native-render-html";
@@ -54,24 +54,33 @@ const Phananh = () => {
 
     return(
      
-        <View style={ MyStyles.container}>
-            <Button icon="plus" mode="contained" onPress={() => {nav.navigate('Themphananh')}}>Thêm phản ánh</Button>
+        <View style={ [MyStyles.container,{backgroundColor: '#F5EFE6',}]}>
+            <Button style={MyStyles.button} icon="plus" mode="contained" onPress={() => {nav.navigate('Themphananh')}}>Thêm phản ánh</Button>
             <ScrollView onScroll={loadMore} >
             <RefreshControl onRefresh={ () => loahPhananhs()}/>
             {loading && <ActivityIndicator />}
-            {phananhs.map(c => <Card key={c.id} style={MyStyles.margin} >
-                <Card.Title title={c.name} subtitle={c.user.username} left={(props) => <Avatar.Image {...props} source={{ uri: c.user.avatar}} />}/>
+            {phananhs.map(c => <Card key={c.id} style={[MyStyles.margin,styles.item]} >
+                <Card.Title  
+                    titleStyle={styles.title} 
+                    title={c.name} 
+                    subtitle={
+                        <Text style={styles.subtitle}>
+                        Người viết: <Text style={styles.title}>{c.user.username}</Text>
+                      </Text>
+                    }
+                    left={(props) => <Avatar.Image {...props} 
+                    source={{ uri: c.user.avatar}} />}/>
                 
                 <Card.Content>
                     <RenderHTML source={{html: c.noiDung}}/>
                 </Card.Content>
 
                 <Card.Cover source={{ uri: c.image }} />         
-                        <Text>{moment(c.created_date).calendar()}</Text>
-                        <Card.Actions>
+                <Text style={styles.dateText}>{moment(c.created_date).calendar()}</Text>
+                        {/* <Card.Actions>
                         <Button>Cancel</Button>
                         <Button>Detail</Button>
-                        </Card.Actions>
+                        </Card.Actions> */}
                 </Card>
                 )}
             {loading && page >1 && <ActivityIndicator />}
@@ -81,3 +90,28 @@ const Phananh = () => {
     )
 }
 export default Phananh
+
+const styles = StyleSheet.create({
+    cardContent: {
+        marginBottom: 10,
+    },
+    title: {
+        fontSize: 18   ,
+        fontWeight: 'bold',
+        color: '#1A4D2E',
+    }, subtitle: {
+        color: 'gray', // hoặc màu sắc bạn muốn cho phần còn lại của subtitle
+      },
+    dateText: {
+        fontSize: 16,
+        color: '#666',
+        marginTop: 5,
+        textAlign: 'right',
+    }, item: {
+        marginBottom: 20,
+        backgroundColor: '#E8DFCA',
+        borderRadius: 10,
+        padding: 10,
+        elevation: 3,
+    },
+});

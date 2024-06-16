@@ -70,66 +70,87 @@ const Hoadon = () => {
 };
 
 
-   return (
-       <View style={MyStyles.container}>
-           <Text style={MyStyles.subject}>Hoá đơn của tôi</Text>
-           <View style={styles.icontainer}>
-               <TouchableOpacity
-                   style={[styles.button, selectedButton === '' && styles.selectedButton]}
-                   onPress={() => handleButtonPress('')}>
-                   <Text style={styles.buttonText}>Tất cả</Text>
-               </TouchableOpacity>
-               <TouchableOpacity
-                   style={[styles.button, selectedButton === 'pending' && styles.selectedButton]}
-                   onPress={() => handleButtonPress('pending')}>
-                   <Text style={styles.buttonText}>Chờ xử lý</Text>
-               </TouchableOpacity>
-               <TouchableOpacity
-                   style={[styles.button, selectedButton === 'paid' && styles.selectedButton]}
-                   onPress={() => handleButtonPress('paid')}>
-                   <Text style={styles.buttonText}>Đã đóng tiền</Text>
-               </TouchableOpacity>
-           </View>
+return (
+    <View style={MyStyles.container}>
+        <Text style={MyStyles.subject}>Hoá đơn của tôi</Text>
+        <View style={styles.buttonContainer}>
+            <TouchableOpacity
+                style={[styles.button, selectedButton === '' && styles.selectedButton]}
+                onPress={() => handleButtonPress('')}>
+                <Text style={styles.buttonText}>Tất cả</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.button, selectedButton === 'pending' && styles.selectedButton]}
+                onPress={() => handleButtonPress('pending')}>
+                <Text style={styles.buttonText}>Chờ xử lý</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.button, selectedButton === 'paid' && styles.selectedButton]}
+                onPress={() => handleButtonPress('paid')}>
+                <Text style={styles.buttonText}>Đã đóng tiền</Text>
+            </TouchableOpacity>
+        </View>
 
-
-           <ScrollView>
-               {loading && <ActivityIndicator />}
-               {hoadons.map(c => (
-                   <TouchableOpacity key={c.id} onPress={() => nav.navigate("Hoadondetails", { hoadonId: c.id })}>
-                       <List.Item style={MyStyles.margin} title={c.name} description={moment(c.created_date).fromNow()} />
-                   </TouchableOpacity>
-               ))}
-           </ScrollView>
-
-
-           {/* <ScrollView >
-               {loading && <ActivityIndicator />}
-               {hoadons.map(c => <TouchableOpacity key={c.id} onPress={() => navigation.navigate("HoaDonDetails", { hoadonId: c.id })}>
-                   <List.Item style={MyStyles.margin} key={c.id} title={c.name} description={moment(c.created_date).fromNow()} />
-               </TouchableOpacity>
-               )}
-           </ScrollView> */}
-       </View>
-   )
+        <ScrollView>
+            {loading && <ActivityIndicator color="#1A4D2E" />}
+            {hoadons.map(c => (
+                <TouchableOpacity key={c.id} onPress={() => nav.navigate("Hoadondetails", { hoadonId: c.id })}>
+                    <List.Item
+                        style={[
+                            styles.listItem,
+                            c.status === 'pending' && styles.pending,
+                            c.status === 'paid' && styles.paid
+                        ]}
+                        title={c.name}
+                        titleStyle={styles.title}
+                        description={moment(c.created_date).fromNow()}
+                        descriptionStyle={styles.description}
+                    />
+                </TouchableOpacity>
+            ))}
+        </ScrollView>
+    </View>
+);
 };
-export default Hoadon
-
+export default Hoadon;
 
 const styles = StyleSheet.create({
-   icontainer: {
-       flexDirection: 'row',
-       justifyContent: 'space-between',
-       marginBottom: 10,
-   },
-   button: {
-       padding: 10,
-       backgroundColor: '#cccccc',
-       borderRadius: 5,
-   },
-   selectedButton: {
-       backgroundColor: '#007bff',
-   },
-   buttonText: {
-       color: '#ffffff',
-   },
+buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+},
+button: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#E8DFCA',
+    borderRadius: 5,
+    marginHorizontal: 5,
+},
+selectedButton: {
+    backgroundColor: '#AFD198',
+},
+buttonText: {
+    color: '#1A4D2E',
+    textAlign: 'center',
+    fontWeight: 'bold',
+},
+listItem: {
+    marginBottom: 10,
+    backgroundColor: '#F5EFE6',
+    borderRadius: 5,
+},
+pending: {
+    backgroundColor: '#E8DFCA',
+},
+paid: {
+    backgroundColor: '#AFD198',
+},
+title: {
+    color: '#1A4D2E',
+    fontWeight: 'bold',
+},
+description: {
+    color: '#4F6F52',
+},
 });

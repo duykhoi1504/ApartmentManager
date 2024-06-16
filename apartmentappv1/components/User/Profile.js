@@ -10,11 +10,11 @@ const Profile = () => {
   const dispatch = useContext(MyDispatchContext);
 
   return (
-    <View style={styles.container}>
+    <View style={MyStyles.container}>
          <ScrollView>
-      <View style={styles.header}>
-        <Image style={styles.avatar} source={{ uri: user.avatar }} />
-        <Text style={styles.name}>{user.first_name} {user.last_name}</Text>
+      <View style={MyStyles.header}>
+        <Image style={MyStyles.avatar} source={{ uri: user.avatar }} />
+        <Text style={MyStyles.name}>{user.first_name} {user.last_name}</Text>
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Email:</Text>
@@ -41,7 +41,7 @@ const Profile = () => {
         icon="logout" 
         mode="contained" 
         onPress={() => dispatch({ type: "logout" })}
-        style={styles.logoutButton}
+        style={MyStyles.button}
       >
         <Text>Đăng xuất</Text>
       </Button>
@@ -53,26 +53,6 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  header: {
-    backgroundColor: "#ff7043",
-    alignItems: "center",
-    padding: 20,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 10,
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
-  },
   infoContainer: {
     padding: 20,
   },
@@ -94,10 +74,6 @@ const styles = StyleSheet.create({
   },
   inactive: {
     color: "red",
-  },
-  logoutButton: {
-    marginHorizontal: 24,
-    marginVertical: 12,
   },
 });
 //   import { useContext } from "react";

@@ -20,8 +20,8 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.avatar} source={{ uri: user.avatar }} />
-        <Text style={styles.name}>{user.first_name} {user.last_name}</Text>
+        <Image style={MyStyles.avatar} source={{ uri: user.avatar }} />
+        <Text style={MyStyles.name}>{user.first_name} {user.last_name}</Text>
       </View>
       <ScrollView style={styles.contentList}>
         {items.map((item, index) => (
@@ -74,23 +74,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#1A4D2E",
     alignItems: "center",
     padding: 20,
-  },
-  avatarContainer: {
-    alignItems: 'center',
-    marginTop: -35,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: 'white',
-  },
-  name: {
-    marginTop: 5,
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#F5EFE6",
   },
 });

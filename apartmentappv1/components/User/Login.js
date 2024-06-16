@@ -39,6 +39,7 @@ const [erorUsername,setErrorUsername]=useState('')
 const [erorPass,setErrorPass]=useState('')
 const[usernameVerify,setUsernameVerify]=useState(false)
 const[passwordVerify,setPasswordVerify]=useState(false)
+// const [showPassword, setShowPassword] = useState(false);
 const isValidationOK = () => usernameVerify && passwordVerify
 
   const db = getFirestore(app);
@@ -163,6 +164,7 @@ const isValidationOK = () => usernameVerify && passwordVerify
 //     </View>
 //   )
 // }
+
 return (
   <Background>
      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -178,6 +180,9 @@ return (
                 <TextInput  
                   style={Styles.input}
                     secureTextEntry={c.secureTextEntry} 
+                    
+                    // secureTextEntry={!showPassword} 
+
                     value={user[c.name]} 
                     onChangeText={t => {
                       setLoginError('')
@@ -190,17 +195,13 @@ return (
                           updateState(c.name, t);
                           setPasswordVerify(isValidPassword(t));
                       }
-                  
-
                   }}
-                  
                     label={c.label} 
-                
                     right={
                       c.name === 'username' && usernameVerify ? (
                         <TextInput.Icon icon="check-circle" color="green" />
                       ) : c.name === 'password' && passwordVerify ? (
-                        <TextInput.Icon icon="check-circle" color="green" />
+                        <TextInput.Icon icon="check-circle" color="green"  />
                       ) : null
                     }
                   />
