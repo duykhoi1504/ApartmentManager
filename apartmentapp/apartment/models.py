@@ -13,7 +13,7 @@ class User(AbstractUser):
         ('admin', 'quản trị viên'),
         ('resident', 'cư dân')
     )
-    avatar= CloudinaryField(null=True)
+    avatar= CloudinaryField(null=True, blank=True)
     role = models.CharField(max_length=20, choices=STATUS_CHOICES,default='resident')
 
     def save(self, *args, **kwargs):
@@ -24,6 +24,8 @@ class User(AbstractUser):
             self.role = 'admin'
         elif self.role == 'admin' and not self.is_superuser:
             self.role = 'resident'
+            # Set default avatar if none is provided
+
         super().save(*args, **kwargs)
         #*args sẽ thu thập tất cả các tham số không được đặt tên và đóng gói chúng thành một tuple.
         #**kwargs sẽ thu thập tất cả các tham số được đặt tên và đóng gói chúng thành một dictionary.

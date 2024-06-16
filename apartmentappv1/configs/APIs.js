@@ -1,4 +1,5 @@
 import axios from "axios"
+// API
 const BASE_URL="http://10.0.0.138:8000/"
 // const BASE_URL="http://10.0.0.93:8000/"
 // GiangNam
