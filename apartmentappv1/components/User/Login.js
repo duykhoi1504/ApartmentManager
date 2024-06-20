@@ -15,7 +15,7 @@ import app from '../../firebaseConfig';
 import { isValidPassword, isValidUsername } from '../../Utils/Validations';
 import Background from './Background';
 import Styles from './Styles';
-
+import {client_id_app,client_secret_app} from "@env"
 const Login = () =>{
 
 
@@ -64,17 +64,14 @@ const isValidationOK = () => usernameVerify && passwordVerify
     });
 }
 
-// useEffect(() => {
-//   login();
-// }, [erorPass,eroru]);
   const login= async () =>{
     setLoading(true);
     setLoginError('');
     try{
       let res = await APIs.post(endpoints['login'], {
         ...user,
-        'client_id': 'ga4gpva8OJ4DDAiZ2MBfH0XkXYiHG02P1Cdq1UUG',
-        'client_secret': 'LaMlOXMiVIyFMgawsCqDzAae5rS2RhcEjLTLAQB23sHzZZlIzL7z2zAqJgILhcqpFOzDk713UrYsO67r5HASxjce6fdBh4d1XZ4iczeNzpla8F8kFDeCC86DsbFOvwXS',
+        'client_id':client_id_app,
+        'client_secret': client_secret_app,
         'grant_type': 'password'
       });
       console.info(res.data)
@@ -82,26 +79,21 @@ const isValidationOK = () => usernameVerify && passwordVerify
 
       setTimeout(async () =>{
         let user = await authApi(res.data.access_token).get(endpoints['current-user']);
-      console.info(user.data);
-      const token = res.data.access_token;
-      //dispatch: Được lấy từ MyDispatchContext để dispatch các hành động cập nhật trạng thái người dùng toàn cục.
-      dispatch({
-        'type': "login",
-        'payload': {...user.data,access_token: token}
-    })
+        console.info(user.data);
+        const token = res.data.access_token;
+        //dispatch: Được lấy từ MyDispatchContext để dispatch các hành động cập nhật trạng thái người dùng toàn cục.
+        dispatch({
+          'type': "login",
+          'payload': {...user.data,access_token: token}
+        })
     
-    // Thêm người dùng vào Firestore
-    await addUserToFirestore(user.data);
-    nav.navigate('Home');
+        // Thêm người dùng vào Firestore
+        await addUserToFirestore(user.data);
+        nav.navigate('Home');
 
 
       },100)
-      // console.info({
-      //   ...user,
-      //   'client_id': 'ga4gpva8OJ4DDAiZ2MBfH0XkXYiHG02P1Cdq1UUG',
-      //   'client_secret': 'LaMlOXMiVIyFMgawsCqDzAae5rS2RhcEjLTLAQB23sHzZZlIzL7z2zAqJgILhcqpFOzDk713UrYsO67r5HASxjce6fdBh4d1XZ4iczeNzpla8F8kFDeCC86DsbFOvwXS',
-      //   'grant_type': 'password'
-      // });
+
     }catch(ex){
       console.error(ex);
       console.error('Response data:', ex.response?.data);
@@ -115,55 +107,7 @@ const isValidationOK = () => usernameVerify && passwordVerify
     }
   }
 
-//   return(
-//     <View style={[MyStyles.container, MyStyles.margin]}>
-//       <Text style={MyStyles.subject}>ĐĂNG NHẬP NGƯỜI DÙNG</Text>
-//       {fields.map(c => (
-//         <React.Fragment key={c.id}>
-//         <TextInput  
-         
-//             secureTextEntry={c.secureTextEntry} 
-//             value={user[c.name]} 
-//             onChangeText={t => {
-//               setLoginError('')
-//               if (c.name === 'username') {
-//                   setErrorUsername(isValidUsername(t)==true ? 'tên đăng nhập hợp lệ' : 'Tên đăng nhập không hợp lệ');
-//                   updateState(c.name, t);
-//                   setUsernameVerify(isValidUsername(t));
-//               } else if (c.name === 'password') {
-//                   setErrorPass(isValidPassword(t)==true ? 'mật khẩu hợp lệ' : 'Mật khẩu phải có ít nhất 3 kí tự, ex:P@ssw0rd');
-//                   updateState(c.name, t);
-//                   setPasswordVerify(isValidPassword(t));
-//               }
-              
-//           }}
-//             style={MyStyles.margin} 
-//             label={c.label} 
-//             left={<TextInput.Icon icon={c.icon}  />} 
-//             right={
-//               c.name === 'username' && usernameVerify ? (
-//                 <TextInput.Icon icon="check-circle" color="green" />
-//               ) : c.name === 'password' && passwordVerify ? (
-//                 <TextInput.Icon icon="check-circle" color="green" />
-//               ) : null
-//             }
-//           />
-        
-//         {c.name === 'username' && (
-//             <Text style={usernameVerify ? styles.textInput : styles.error}>{erorUsername}</Text>
-//           )}
-//           {c.name === 'password' && (
-//             <Text style={passwordVerify ? styles.textInput : styles.error}>{erorPass}</Text>
-//           )}
-//         </React.Fragment>
-// ))}
 
-// {loginError ? <Text style={styles.error}>{loginError}</Text> : null}
-
-//       <Button disabled={isValidationOK()===false} icon="account" loading={loading} mode="contained" onPress={login}>ĐĂNG NHẬP</Button>
-//     </View>
-//   )
-// }
 
 return (
   <Background>
@@ -213,14 +157,14 @@ return (
                   <Text style={passwordVerify ? styles.textInput : styles.error}>{erorPass}</Text>
                   )}
                 </React.Fragment>
-            ))}
-        {loginError ? <Text style={styles.error}>{loginError}</Text> : null}
+        ))}
+          {loginError ? <Text style={styles.error}>{loginError}</Text> : null}
           <Button 
-          disabled={isValidationOK()===false} 
-          style={[Styles.button, { marginTop: 20 ,backgroundColor: isValidationOK()===false ? '#B0B0B0' : '#1A4D2E'}]} 
-          icon="account"   labelStyle={{ color: 'white' }} 
-          loading={loading} mode="contained" 
-          onPress={login}>ĐĂNG NHẬP
+            disabled={isValidationOK()===false} 
+            style={[Styles.button, { marginTop: 20 ,backgroundColor: isValidationOK()===false ? '#B0B0B0' : '#1A4D2E'}]} 
+            icon="account"   labelStyle={{ color: 'white' }} 
+            loading={loading} mode="contained" 
+            onPress={login}>ĐĂNG NHẬP
           </Button>
         </View>
       </View>

@@ -30,13 +30,15 @@ const TheXeNguoiThan = () => {
                     user_id: user.id,
                 },
             });
-            setNguoiThans(res.data.filter(item => item.user_id === user.id)); // Ensure filtering
+            setNguoiThans(res.data.filter(item => item.user_id === user.id)); 
         } catch (ex) {
             console.error('Error fetching nguoiThans:', ex.response?.data || ex.message);
             setError('Có lỗi xảy ra khi tải thông tin người thân.');
         }
     };
     const handleSubmit = async () => {
+        setError("")
+        setSuccessMessage("")
         if (!name || !cccd || !sdt) {
             setError('Vui lòng điền đầy đủ thông tin.');
             return;

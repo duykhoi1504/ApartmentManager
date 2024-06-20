@@ -9,7 +9,7 @@ const HanghoaDetails = ({route}) => {
     const [hanghoa, setHanghoa] = React.useState(null);
 
     //kiểm tra xem route.params có phải là null hoặc undefined trước khi cố gắng truy cập thuộc tính hanghoaId
-    const hanghoaId = route.params?.hanghoaId;
+    const hanghoaId = route.params?.hanghoaId ;
  
  
     const loadHanghoa = async () => {

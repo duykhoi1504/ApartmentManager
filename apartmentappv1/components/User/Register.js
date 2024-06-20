@@ -97,6 +97,7 @@ const Register = () => {
         <View style={Styles.container}>
           <Text style={Styles.textTitle}>Đăng kí</Text>
           <View style={[Styles.form, { paddingTop: 50 }]}>
+
             <TextInput
               value={username}
               onChangeText={ t =>{
@@ -111,10 +112,9 @@ const Register = () => {
                 ):(
                   <TextInput.Icon icon="close-circle" color="red" />
                 )
-              
               }
-             
             />
+
             <TextInput
               value={email}
               onChangeText={t=>{
@@ -131,6 +131,7 @@ const Register = () => {
               )
               }
             />
+
             <TextInput
               value={password}
               onChangeText={t =>{
@@ -146,6 +147,7 @@ const Register = () => {
                 <TextInput.Icon icon={showPassword ? "eye-off" : "close-circle"} onPress={() => setShowPassword(!showPassword)} color="red" />
               )}
             />
+
             <TextInput
               value={confirmPassword}
               onChangeText={t=>{
@@ -161,20 +163,25 @@ const Register = () => {
                 <TextInput.Icon icon={showConfirmPassword ? "eye-off" : "close-circle"} onPress={() => setShowConfirmPassword(!showConfirmPassword)} color="red" />
               )}
             />
+
             <TouchableRipple onPress={picker}>
               <Text style={[Styles.content, { alignSelf: 'center', paddingTop: 5 }]} icon="image">Chọn ảnh đại diện</Text>
             </TouchableRipple>
+
             {avatar && <Image style={[MyStyles.avatar, { alignSelf: 'center' }]} source={{ uri: avatar.uri }} />}
+
             <HelperText type="error" visible={err}>
               {errorMessage}
             </HelperText>
+
             <Button 
-            disabled={isValidationOK()===false}  
-            loading={loading} 
-            onPress={register} 
-            style={[Styles.button,{backgroundColor: isValidationOK()===false ? '#B0B0B0' : '#1A4D2E'}]} mode="contained" icon="account">
-              ĐĂNG KÍ
+              disabled={isValidationOK()===false}  
+              loading={loading} 
+              onPress={register} 
+              style={[Styles.button,{backgroundColor: isValidationOK()===false ? '#B0B0B0' : '#1A4D2E'}]} mode="contained" icon="account">
+                ĐĂNG KÍ
             </Button>
+            
           </View>
         </View>
         </ScrollView> 

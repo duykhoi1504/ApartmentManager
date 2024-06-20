@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
 import { TextInput } from 'react-native-paper';
 import { MyUserContext } from '../../configs/Contexts';
+import {CLIENT_ID_VIETQR,API_KEY_VIETQR,TK_THUHUONG} from "@env"
 const PaymentScreen = ({route}) => {
     const [qrCodeData, setQRCodeData] = useState(null);
   const [selectedBank, setSelectedBank] = useState('');
@@ -17,8 +18,8 @@ const PaymentScreen = ({route}) => {
 
   const user= useContext(MyUserContext)
   const vietQR = new VietQR({
-    clientID: 'b11fb921-5977-45b6-950c-36756b355ee3',
-    apiKey: '1bc63609-d5e3-4015-9149-e4068bc0a055',
+     clientID: CLIENT_ID_VIETQR,
+    apiKey: API_KEY_VIETQR,
   });
 
 
@@ -48,16 +49,16 @@ const PaymentScreen = ({route}) => {
 
   const handleGenerateQRCode = async () => {
     try {
-      const clientID = 'b11fb921-5977-45b6-950c-36756b355ee3';
-      const apiKey = '1bc63609-d5e3-4015-9149-e4068bc0a055';  
-      //tk ngan hang của chủ chung cư
-      const accountThuHuong=7104205296956;
+      // const clientID = 'b11fb921-5977-45b6-950c-36756b355ee3';
+      // const apiKey = '1bc63609-d5e3-4015-9149-e4068bc0a055';  
+      //// tk ngan hang của chủ chung cư
+      // const accountThuHuong=7104205296956;
 
       const url = 'https://api.vietqr.io/v2/generate';
 
       const headers = {
-        'x-client-id': clientID,
-        'x-api-key': apiKey,
+        'x-client-id': CLIENT_ID_VIETQR,
+        'x-api-key': API_KEY_VIETQR,
         'Content-Type': 'application/json',
       };
 
@@ -71,7 +72,7 @@ const PaymentScreen = ({route}) => {
       // };
 
    const requestBody = {
-        accountNo: accountThuHuong,
+        accountNo: TK_THUHUONG,
         accountName: 'chuyen khoan',
         acqId: selectedBank,
         addInfo: memo,
@@ -120,6 +121,8 @@ const alert_handleGenerateQRCode = () => {
     handleGenerateQRCode();
   }
 };
+
+
 
   useEffect(() => {
     // console.log("tongtien:",amount)

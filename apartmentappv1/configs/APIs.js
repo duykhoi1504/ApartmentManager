@@ -1,11 +1,9 @@
 import axios from "axios"
+import {API_HOST} from "@env"
 // API
-const BASE_URL="http://10.0.0.138:8000/"
-// const BASE_URL="http://10.0.0.93:8000/"
-// GiangNam
-// const BASE_URL="http://10.10.1.73:8000/"
-// const BASE_URL="http://10.10.1.73:8000/"
-// const BASE_URL="http://172.20.10.11:8000/"
+const BASE_URL=API_HOST
+// const BASE_URL="https://pokesora90.pythonanywhere.com/"
+
 export const endpoints ={
     'tudodientus':'/tudodientus/',
     'hanghoas':'/hanghoas/',
